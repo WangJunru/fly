@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/top" />
+
+    <LinearLayout
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_view"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/xy_plane_con"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/plane_round_selector"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/jx_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/plane_xy" />
+        </FrameLayout>
+
+        <TextView
+             android:id="@+id/jx_name"
+            style="@style/first_page_mid_text_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/xy_plane" />
+    </LinearLayout>
+    
+    
+       <Button
+            android:id="@+id/sz_quiz_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/sz_ks_bg"
+            android:text="@string/sz_quiz_sytem"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pt_17" />
+       
+         <Button
+            android:id="@+id/bz_quiz_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sz_quiz_bt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/sz_ks_bg_02"
+            android:text="@string/bz_quiz_sytem"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pt_17" />
+
+</RelativeLayout>

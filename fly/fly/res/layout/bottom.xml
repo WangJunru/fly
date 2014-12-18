@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom" 
+    android:gravity="center_vertical">
+
+    <ImageView  android:id="@+id/sy"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/sy_1"
+        android:contentDescription="@string/app_name"/>
+    
+     <ImageView  android:id="@+id/ks"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bt_ks_selector"
+        android:contentDescription="@string/app_name"/>
+     
+      <ImageView  android:id="@+id/wd"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bt_mine_selector"
+        android:contentDescription="@string/app_name"/>
+      
+       <ImageView  android:id="@+id/hx"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bt_hx_selector"
+        android:contentDescription="@string/app_name"/>
+       
+        <ImageView  android:id="@+id/fx"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bt_fx_selector"
+        android:contentDescription="@string/app_name"/>
+    <!-- <TextView
+        android:id="@+id/sy"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        style="@style/bottom_text_style"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/bt_sy_selector"
+        android:text="@string/first_page"
+        android:gravity="center" 
+        android:layout_marginLeft="-8dp"
+        android:clickable="true"
+        />
+
+    <TextView
+        android:id="@+id/ks"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        style="@style/bottom_text_style"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/bt_ks_selector"
+        android:text="@string/quiz"
+        android:gravity="center"
+        android:clickable="true" />
+
+    <TextView
+        android:id="@+id/mine"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        style="@style/bottom_text_style"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/bt_mine_selector"
+        android:text="@string/mine"
+        android:gravity="center"
+        android:clickable="true" />
+
+    <TextView
+        android:id="@+id/hx"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        style="@style/bottom_text_style"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/bt_hx_selector"
+        android:text="@string/filight_school"
+        android:gravity="center" 
+        android:clickable="true"/>
+
+    <TextView
+        android:id="@+id/jk"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        style="@style/bottom_text_style"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/bt_jk"
+        android:gravity="center"
+        android:text="@string/plane_garage"
+        android:layout_marginRight="-8dp"
+        android:clickable="true"
+         /> -->
+</LinearLayout>

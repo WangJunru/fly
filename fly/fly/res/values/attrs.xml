@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color"></attr>
+    </declare-styleable>
+    
+    <declare-styleable  name="user_info_item">
+        <attr name="label_text_color" format="color|reference"/>
+        <attr name="label_text_size" format="dimension|reference"/>
+        <attr name="value_text_color" format="color|reference"/>
+        <attr name="value_text_size" format="dimension|reference"/>
+        <attr name="label_text" format="string|reference"/>
+        <attr name="value_text" format="string|reference"/>
+    </declare-styleable>
+</resources>
