@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" 
+    android:gravity="center_vertical"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingRight="5dp"
+    android:paddingLeft="5dp"
+    >
+
+    <com.fly.ui.view.NetImageView
+        android:id="@+id/product_pic_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/app_name"
+        android:layout_centerVertical="true"
+        android:src="@drawable/product_default_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/product_pic_iv"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" 
+        android:layout_marginLeft="6dp">
+
+        <TextView
+            android:id="@+id/product_title_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="数据估计对方"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textColor="@color/product_title_text_color"
+            android:textSize="@dimen/pt_20" />
+
+        <TextView
+            android:id="@+id/product_details_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:text="数据估计对方\nsdsd"
+            android:textColor="@color/product_details_text_color"
+            android:textSize="@dimen/pt_17" />
+    </LinearLayout>
+
+</RelativeLayout>

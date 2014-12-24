@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <include
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/top" />
+
+    <ScrollView
+        android:id="@+id/mid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_view"
+        android:layout_below="@+id/top_view"
+        android:background="@color/ks_bg_color" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:isScrollContainer="true"
+            android:scrollbars="vertical" >
+
+            <LinearLayout
+                android:id="@+id/qt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/qt_title_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:singleLine="false"
+                    android:textColor="@color/ks_text_color"
+                    android:textSize="@dimen/pt_22" />
+
+                <ImageView
+                    android:id="@+id/qt_title_iv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/app_name"
+                    android:singleLine="false" />
+            </LinearLayout>
+
+            <!--   android:background="@drawable/ks_frame_bg" -->
+            <LinearLayout
+                android:id="@+id/qt_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/qt_title"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="10dp"
+                android:layout_marginTop="10dp"          
+                android:orientation="vertical" >
+                
+                
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <include
+        android:id="@+id/bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        layout="@layout/quiz_bottom" />
+
+</RelativeLayout>

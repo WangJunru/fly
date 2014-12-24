@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+    <com.fly.ui.view.NetImageView 
+        android:id="@+id/banner_image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="0dp"
+        android:background="@drawable/product_slide_0"
+       />
+    
+    <TextView android:id="@+id/panner_info_tv"
+        android:layout_below="@+id/banner_image_iv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:layout_alignRight="@+id/banner_image_iv"
+        android:layout_marginRight="10dp"
+        android:text="@string/product_default_info"
+        android:textSize="@dimen/pt_20"/>
+</RelativeLayout>

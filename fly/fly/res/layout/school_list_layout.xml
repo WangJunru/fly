@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/top" />
+
+    <RelativeLayout
+        android:id="@+id/content_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_view"
+        android:background="@color/ks_bg_color"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:paddingTop="15dp" >
+
+        <!--
+    <ImageSwitcher android:id="@+id/top_zhanshi_iv"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"      
+        android:background="@drawable/product_slide_0"  
+        android:contentDescription="@string/app_name"/>
+
+    <TextSwitcher
+        android:id="@+id/first_news_info_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:layout_below="@+id/top_zhanshi_iv" 
+        android:textColor="@color/black"
+        android:text="@string/product_default_info"
+        android:textSize="@dimen/pt_20"/>
+        -->
+
+        <com.fly.ui.view.SlidesView
+            android:id="@+id/slide_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ListView
+            android:id="@+id/school_lists_infos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/slide_view"
+            android:layout_marginTop="3dp"
+            android:divider="@color/product_details_text_color"
+            android:dividerHeight="1px"
+            android:fadeScrollbars="true"
+            android:fadingEdge="none"
+            android:persistentDrawingCache="animation"
+            android:scrollingCache="true"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

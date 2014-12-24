@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg" >
+
+    <include
+        android:id="@+id/top_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        layout="@layout/top_details" />
+
+    <FrameLayout
+        android:id="@+id/mid_con"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bootom_view"
+        android:layout_below="@+id/top_view"
+        android:background="@color/white"
+        android:paddingTop="5dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp" >
+
+        <WebView
+            android:id="@+id/content_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/bootom_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/school_detail_bottom_0" >
+
+        <TextView
+            android:id="@+id/money_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="@string/money_number"
+            android:textColor="@color/product_details_bottom_text_color"
+            android:textSize="@dimen/pt_22" />
+
+        <ImageView
+            android:id="@+id/conn_us_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/conn_us_tv"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/call_telephone" />
+
+        <TextView
+            android:id="@+id/conn_us_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/conn_us"
+            android:textColor="@color/product_details_bottom_text_color"
+            android:textSize="@dimen/pt_22" />
+    </RelativeLayout>
+
+</RelativeLayout>
