@@ -11,7 +11,7 @@ import android.widget.FrameLayout.LayoutParams;
 
 import com.fly.R;
 import com.fly.sdk.util.TextUtils;
-import com.fly.util.debug.Debug;
+import com.fly.util.Debug;
 
 public class SpannerView extends RelativeLayout {
 

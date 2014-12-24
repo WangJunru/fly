@@ -1,12 +1,15 @@
 package com.fly.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,13 +22,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fly.R;
+import com.fly.app.FlyApplication;
+import com.fly.sdk.ErrorMsg;
+import com.fly.sdk.Product;
 import com.fly.sdk.School;
 import com.fly.sdk.SchoolPanner;
+import com.fly.sdk.job.GetSchoolList;
+import com.fly.sdk.job.Job;
+import com.fly.sdk.threading.FlyTaskManager;
+import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.ui.activity.FlyProductDetails;
 import com.fly.ui.view.NetImageView;
 import com.fly.ui.view.SlidesView;
 import com.fly.ui.view.SpannerView;
-import com.fly.util.debug.Debug;
+import com.fly.util.DataCatcheTools;
+import com.fly.util.Debug;
 
 public class SchoolListFragment extends BaseFramgment  implements OnItemClickListener,OnPreDrawListener{
 	
@@ -46,6 +57,8 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 	{
 		if(items != null && !items.isEmpty())
 		    this.products.addAll(items);
+		else
+		
 		if(panners != null &&!panners.isEmpty())
 		{
 			this.productspanner.addAll(panners);
@@ -56,14 +69,39 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
-		attachedActivity = (FragmentActivity)activity;
+		attachedActivity = (FragmentActivity)activity;	
+		loadLocalData();
+		int size = products.size() + productspanner.size();
+		if(size < 10)
+		{
+		   loadNetData();
+		}
 	}
+	
+	private void loadLocalData()
+	{
+		ArrayList<School> data = DataCatcheTools.loadSchoolData(attachedActivity);
+		if(data == null || data.isEmpty())
+			return ;
+	    for(School shObj : data)
+        {
+    	  if(shObj instanceof SchoolPanner)
+    	  {
+    		  productspanner.add((SchoolPanner)shObj);
+    	  }else
+    	  {
+    		  products.add(shObj);
+    	  }
+       }
+	}
+	
 	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.slidesView.onResume();
+		updateViewData();
 	}
 	
 	@Override
@@ -71,6 +109,12 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onStop();
 		this.slidesView.onStop();
+	}
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		uiHandler = null ;
 	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -100,14 +144,27 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
     	BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
     	this.spannViewWidth = opt.outWidth ;
     	this.spannViewHeight = opt.outHeight;
+    	
+    	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
+    	
+    	
     	Debug.log.i("spanner", this.spannViewWidth +":"+this.spannViewHeight);
     	opt.inJustDecodeBounds  = true ;
     	BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);
     	this.productViewWidth  =  opt.outWidth;
     	this.productViewHeight =  opt.outHeight;
     	
+    	Bundle bundle = getArguments();
+    	boolean activity = bundle != null? bundle.getBoolean("new_activity"):false;	
     	View backView = rootView.findViewById(R.id.back_img);
-    	backView.setVisibility(View.INVISIBLE);
+    	if(activity)
+    	{
+    		backView.setVisibility(View.VISIBLE);
+    		backView.setOnClickListener(this);
+    	}else
+    	{
+    		backView.setVisibility(View.INVISIBLE);
+    	}
     	
     	View shareView = rootView.findViewById(R.id.share_img);
     	shareView.setVisibility(View.INVISIBLE);
@@ -120,13 +177,6 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 //    	slideTitle.setText(getText(R.string.product_default_info));
     	
     	slidesView    = (SlidesView)rootView.findViewById(R.id.slide_view);
-    	for(SchoolPanner panner : productspanner)
-    	{
-    		SpannerView sView = new SpannerView(getActivity());
-    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
-    		slidesView.addSlide(sView);
-    	}
-    	
     	productsList  = (ListView)rootView.findViewById(R.id.school_lists_infos);
     	productsList.setOnItemClickListener(this);
     	productsList.setAdapter(new BaseAdapter() {
@@ -180,7 +230,6 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 				return products.size();
 			}
 		});
-    	
     	rootView.getViewTreeObserver().addOnPreDrawListener(this);
     }
 
@@ -202,5 +251,110 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 		return true;
 	}
     
+	private Handler uiHandler = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			 Object obj = msg.obj ;
+			 switch(msg.what)
+			 {
+			   case 0:
+			   {
+				   products.clear();
+	    		   productspanner.clear();
+	    		   if(obj != null)
+	    		   {
+	    		      ArrayList<School> schools = (ArrayList<School>)obj;
+	    		      
+	    		      for(School shObj : schools)
+	    		      {
+	    		    	  if(shObj instanceof SchoolPanner)
+	    		    	  {
+	    		    		  productspanner.add((SchoolPanner)shObj);
+	    		    	  }else
+	    		    	  {
+	    		    		  products.add(shObj);
+	    		    	  }
+	    		      }
+	    		      updateViewData();
+	    		   }
+			   } break;
+			   case 2:
+			   {
+				   
+			   }
+				 break;
+			 }
+		}
+	};
+	
+	private void loadNetData()
+	{
+		Job job = new GetSchoolList(1);
+		FlyTaskManager  taskMng = FlyApplication.getFlyTaskManager();
+		if(taskMng != null)
+		{
+			taskMng.commitJob(job, new ResultCallback() {					
+				@Override
+				public void notifyResult(Object result) {
+					// TODO Auto-generated method stub
+					if(result != null)
+		    		{
+		    			if(result instanceof List<?>)
+		    			{	
+		    			  Object obj =  null ;
+		    			  int size = ((List)result).size() ;
+		    			  if(size > 0)
+		    			  {
+		    				  obj = ((List)result).get(0);
+		    			  }else
+		    			  {
+		    				  return ;
+		    			  } 
+		    			  if(obj instanceof School)
+		    			  {
+		    				  ArrayList<School> data = new ArrayList<School>();
+		    				  data.addAll((List)result);
+		    				  data.addAll(products);
+		    				  data.addAll(productspanner);
+		    				  DataCatcheTools.catcheSchoolData(attachedActivity, data);
+		    				  uiHandler.obtainMessage(0, result).sendToTarget();
+		    			  }
+		    			}else if(result instanceof ErrorMsg)
+		    			{
+		    				 uiHandler.obtainMessage(2, result).sendToTarget();
+		    			}
+		    		}
+				}
+			});
+		}
+	}
+	private void updateViewData()
+	{
+		if(!this.products.isEmpty() && !this.productspanner.isEmpty())
+		{
+			slidesView.clearViews();
+			for(SchoolPanner panner : productspanner)
+	    	{
+	    		SpannerView sView = new SpannerView(getActivity());
+	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
+	    		slidesView.addSlide(sView);
+	    	}
+			((BaseAdapter)productsList.getAdapter()).notifyDataSetChanged();
+		}
+	}
+	
+	public void clickView(View v)
+	{
+		switch(v.getId())
+		{
+		   case R.id.back_img:
+			   attachedActivity.finish();
+			   break;
+			
+		}
+	}
+
     
 }

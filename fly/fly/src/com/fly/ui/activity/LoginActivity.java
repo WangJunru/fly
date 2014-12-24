@@ -29,7 +29,7 @@ import com.fly.sdk.User;
 import com.fly.sdk.job.UserLogin;
 import com.fly.sdk.threading.FlyTaskManager;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
-import com.fly.util.debug.Debug.log;
+import com.fly.util.Debug.log;
 
 public class LoginActivity extends BaseActivity {
 

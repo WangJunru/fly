@@ -18,6 +18,7 @@ import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.sdk.User;
 import com.fly.ui.activity.LoginActivity;
+import com.fly.ui.activity.QuizMainActivity;
 
 public class MainFragment extends BaseFramgment implements OnClickListener,OnGlobalLayoutListener{
 	
@@ -117,35 +118,33 @@ public class MainFragment extends BaseFramgment implements OnClickListener,OnGlo
 		 {
 		   case R.id.xy_plane_con:
 		   {
-			     if(listener != null)
-			     {
-			    	 listener.clickView(v);
-			     }
-			     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction();
-				 
-				 QuizFragment2 f2 = new QuizFragment2();
-				 Bundle dt = new Bundle();
-				 dt.putChar("jx", 'x');
-				 f2.setArguments(dt);	 
-				 tras.replace(R.id.main_content, f2);
-//				 tras.addToBackStack(null);
-				 tras.commit();
+			    
+//			     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction();			 
+//				 QuizFragment2 f2 = new QuizFragment2();
+//				 Bundle dt = new Bundle();
+//				 dt.putChar("jx", 'x');
+//				 f2.setArguments(dt);	 
+//				 tras.replace(R.id.main_content, f2);
+////				 tras.addToBackStack(null);
+//				 tras.commit();
+			   Intent intent = new Intent(attachedActivity,QuizMainActivity.class);
+			   intent.putExtra("jx", 'x');
+			   startActivity(intent);
 		   }
 			  break;
 		   case R.id.gdy_plane_con:
 		   {
-			    if(listener != null)
-			     {
-			    	 listener.clickView(v);
-			     }
-			     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction(); 
-			     QuizFragment2 f2 = new QuizFragment2();
-				 Bundle dt = new Bundle();
-				 dt.putChar("jx", 'g');
-				 f2.setArguments(dt);	 
-				 tras.replace(R.id.main_content, f2);
-//				 tras.addToBackStack(null);
-				 tras.commit();
+//			     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction(); 
+//			     QuizFragment2 f2 = new QuizFragment2();
+//				 Bundle dt = new Bundle();
+//				 dt.putChar("jx", 'g');
+//				 f2.setArguments(dt);	 
+//				 tras.replace(R.id.main_content, f2);
+////				 tras.addToBackStack(null);
+//				 tras.commit();
+			   Intent intent = new Intent(attachedActivity,QuizMainActivity.class);
+			   intent.putExtra("jx", 'g');
+			   startActivity(intent);
 		  }
 			  break;
 		   case R.id.plane_school_con:

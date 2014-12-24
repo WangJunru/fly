@@ -30,6 +30,7 @@ public class QuizFragment3 extends BaseFramgment  implements OnGlobalLayoutListe
 	private int  userPictureHeight ,userPictureWidth ;
 	private char mJx ;
 	private char mJzlx ;
+	private boolean activity = false ;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -84,6 +85,9 @@ public class QuizFragment3 extends BaseFramgment  implements OnGlobalLayoutListe
 	
 	private void initView(View rootView)
 	{
+		Bundle bundle = getArguments();
+	    activity = bundle != null? bundle.getBoolean("new_activity"):false;
+	    
 		View backView  = rootView.findViewById(R.id.back_img);
 		backView.setOnClickListener(this);
 		
@@ -143,6 +147,7 @@ public class QuizFragment3 extends BaseFramgment  implements OnGlobalLayoutListe
 	  		 FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction(); 
 		     QuizFragment2 f2 = new QuizFragment2();
 			 Bundle dt = new Bundle();
+			 dt.putBoolean("new_activity", activity);
 			 dt.putChar("jx", mJx);
 			 f2.setArguments(dt);	 
 			 tras.replace(R.id.main_content, f2);

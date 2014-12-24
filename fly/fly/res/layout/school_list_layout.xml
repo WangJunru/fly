@@ -10,15 +10,12 @@
         android:layout_alignParentTop="true"
         layout="@layout/top" />
 
-    <RelativeLayout
+     <RelativeLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/top_view"
-        android:background="@color/ks_bg_color"
-        android:paddingLeft="18dp"
-        android:paddingRight="18dp"
-        android:paddingTop="15dp" >
+        android:background="@color/ks_bg_color" >
 
         <!--
     <ImageSwitcher android:id="@+id/top_zhanshi_iv"
@@ -49,12 +46,16 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/slide_view"
             android:layout_marginTop="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:divider="@color/product_details_text_color"
             android:dividerHeight="1px"
             android:fadeScrollbars="true"
             android:fadingEdge="none"
             android:persistentDrawingCache="animation"
             android:scrollingCache="true"/>
+        
+      
         
     </RelativeLayout>
 

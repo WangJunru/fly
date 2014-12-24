@@ -1,12 +1,15 @@
 package com.fly.fragments;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,14 +21,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.fly.R;
+import com.fly.app.FlyApplication;
+import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.Product;
 import com.fly.sdk.ProductBanner;
+import com.fly.sdk.School;
 import com.fly.sdk.SchoolPanner;
+import com.fly.sdk.job.GetProductList;
+import com.fly.sdk.job.GetSchoolList;
+import com.fly.sdk.job.Job;
+import com.fly.sdk.threading.FlyTaskManager;
+import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.ui.activity.FlyProductDetails;
 import com.fly.ui.view.NetImageView;
 import com.fly.ui.view.SlidesView;
 import com.fly.ui.view.SpannerView;
-import com.fly.util.debug.Debug;
+import com.fly.util.DataCatcheTools;
+import com.fly.util.Debug;
 
 public class ProductListFragment extends BaseFramgment implements OnItemClickListener{
 	
@@ -48,16 +60,40 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		{
 			this.products.addAll(products);
 		}
+		
 		if(panners != null &&!panners.isEmpty())
 		{
 			this.productspanner.addAll(panners);
 		}
+		
 	}
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		attachedActivity = (FragmentActivity)activity;
+		loadLocalData();
+		int size = products.size() + productspanner.size();
+		if(size < 10)
+		{
+		   loadNetData();
+		}
+	}
+	private void loadLocalData()
+	{
+		ArrayList<Product> data = DataCatcheTools.loadProductData(attachedActivity);
+		if(data == null || data.isEmpty())
+			return ;
+	    for(Product shObj : data)
+        {
+    	  if(shObj instanceof ProductBanner)
+    	  {
+    		  productspanner.add((ProductBanner)shObj);
+    	  }else
+    	  {
+    		  products.add(shObj);
+    	  }
+       }
 	}
 	
 	@Override
@@ -65,12 +101,14 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.slidesView.onResume();
+		updateViewData();
 	}
 	@Override
 	public void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
 		this.slidesView.onStop();
+		
 	}
 	
 	@Override
@@ -101,14 +139,24 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     	BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
     	this.spannViewWidth = opt.outWidth ;
     	this.spannViewHeight = opt.outHeight;
+    	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
     	
     	opt.inJustDecodeBounds  = true ;
     	BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);
     	this.productViewWidth  =  opt.outWidth;
     	this.productViewHeight =  opt.outHeight;
     	
+    	Bundle bundle = getArguments();
+    	boolean activity = bundle != null? bundle.getBoolean("new_activity"):false;
     	View backView = rootView.findViewById(R.id.back_img);
-    	backView.setVisibility(View.INVISIBLE);
+    	if(activity)
+    	{
+    	  backView.setVisibility(View.VISIBLE);
+    	  backView.setOnClickListener(this);
+    	}else
+    	{
+    	   backView.setVisibility(View.INVISIBLE);
+    	}
     	
     	View shareView = rootView.findViewById(R.id.share_img);
     	shareView.setVisibility(View.INVISIBLE);
@@ -120,12 +168,12 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 //    	slideTitle    = (TextSwitcher)rootView.findViewById(R.id.first_news_info_tv);
     	
     	slidesView =    (SlidesView)rootView.findViewById(R.id.slide_view);
-    	for(ProductBanner panner : productspanner)
-    	{
-    		SpannerView sView = new SpannerView(getActivity());
-    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
-    		slidesView.addSlide(sView);
-    	}
+//    	for(ProductBanner panner : productspanner)
+//    	{
+//    		SpannerView sView = new SpannerView(getActivity());
+//    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
+//    		slidesView.addSlide(sView);
+//    	}
     	
     	//    	slideTitle.setText(getText(R.string.product_default_info));
     	productsList  = (ListView)rootView.findViewById(R.id.school_lists_infos);
@@ -161,7 +209,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 						productViewWidth,productViewHeight);
 				viewHolder.productTitle.setText(product.getTitle());
 				viewHolder.productDetails.setText(product.getAbstractString());
-				Debug.log.i("product", product.getTitle());
+//				Debug.log.i("product", product.getTitle());
 				return convertView;
 			}
 			
@@ -185,11 +233,122 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		});
     }
 
+    private Handler uiHandler = new Handler()
+	{
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			 Object obj = msg.obj ;
+			 switch(msg.what)
+			 {
+			   case 1:
+			   {
+				   products.clear();
+	    		   productspanner.clear();
+	    		   if(obj != null)
+	    		   {
+	    		      ArrayList<Product> schools = (ArrayList<Product>)obj;
+	    		      for(Product shObj : schools)
+	    		      {
+	    		    	  if(shObj instanceof ProductBanner)
+	    		    	  {
+	    		    		  productspanner.add((ProductBanner)shObj);
+	    		    	  }else
+	    		    	  {
+	    		    		  products.add(shObj);
+	    		    	  }
+	    		      }
+	    		      updateViewData();
+	    		   }
+			   } break;
+			   case 2:
+			   {
+				   
+			   }
+				 break;
+			 }
+		}
+	};
+    private void loadNetData()
+	{
+		Job job = new GetProductList(1);
+		FlyTaskManager  taskMng = FlyApplication.getFlyTaskManager();
+		if(taskMng != null)
+		{
+			taskMng.commitJob(job, new ResultCallback() {					
+				@Override
+				public void notifyResult(Object result) {
+					// TODO Auto-generated method stub
+					if(result != null)
+		    		{
+		    			if(result instanceof List<?>)
+		    			{	
+		    			  Object obj =  null ;
+		    			  int size = ((List)result).size() ;
+		    			  if(size > 0)
+		    			  {
+		    				  obj = ((List)result).get(0);
+		    			  }else
+		    			  {
+		    				  return ;
+		    			  } 
+		    			  if(obj instanceof Product)
+		    			  {
+		    				  ArrayList<Product> data = new ArrayList<Product>();
+		    				  data.addAll((List)result);
+		    				  data.addAll(products);
+		    				  data.addAll(productspanner);
+		    				  DataCatcheTools.catcheProductData(attachedActivity, data);
+		    				  uiHandler.obtainMessage(1, result).sendToTarget();
+		    			  }
+		    			}else if(result instanceof ErrorMsg)
+		    			{
+		    				 uiHandler.obtainMessage(2, result).sendToTarget();
+		    			}
+		    		}
+				}
+			});
+		}
+	}
+    
+    private void updateViewData()
+	{
+		if(!this.products.isEmpty() && !this.productspanner.isEmpty())
+		{
+		 
+			slidesView.clearViews();
+			for(ProductBanner panner : productspanner)
+	    	{
+	    		SpannerView sView = new SpannerView(getActivity());
+	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
+	    		slidesView.addSlide(sView);
+	    	}
+			((BaseAdapter)productsList.getAdapter()).notifyDataSetChanged();
+		}
+	}
+    
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		Intent  intent = new Intent(attachedActivity,FlyProductDetails.class);
 		intent.putExtra("product", products.get(arg2));
 		startActivity(intent);
+	}
+	
+	public void clickView(View v)
+	{
+		  switch(v.getId())
+		  {
+		    case R.id.back_img:
+		    	attachedActivity.finish();
+			  break;
+		  }
+	}
+	
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		uiHandler = null ;
 	}
 }

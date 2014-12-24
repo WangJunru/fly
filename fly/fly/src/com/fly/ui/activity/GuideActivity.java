@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -56,6 +59,7 @@ public class GuideActivity extends BaseActivity {
 		}else
 		{
 			ImageView view = new  ImageView(this);
+			Options ops = new Options();
 			view.setBackgroundResource(R.drawable.guide4_02);
 			setContentView(view, new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT));
 			view.postDelayed(new Runnable() {
@@ -67,7 +71,7 @@ public class GuideActivity extends BaseActivity {
 					startActivity(intent);
 					GuideActivity.this.finish();
 				}
-			}, 5000);
+			}, 2000);
 		}
 	
 	}

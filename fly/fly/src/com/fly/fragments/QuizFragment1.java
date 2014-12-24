@@ -35,9 +35,18 @@ public class QuizFragment1 extends BaseFramgment{
 	
 	private void initView(View rootView)
 	{
+		Bundle bundle = getArguments();
+		boolean activity = bundle != null? bundle.getBoolean("new_activity"):false;
 		View backView = rootView.findViewById(R.id.back_img);
-		backView.setVisibility(View.INVISIBLE);
-		
+		if(activity)
+		{
+			backView.setVisibility(View.VISIBLE);
+			backView.setOnClickListener(this);
+		}else
+		{
+			backView.setVisibility(View.INVISIBLE);
+		}
+	
 		View sharedView = rootView.findViewById(R.id.share_img);
 		sharedView.setVisibility(View.INVISIBLE);
 		
@@ -56,7 +65,9 @@ public class QuizFragment1 extends BaseFramgment{
 		// TODO Auto-generated method stub
 		switch(v.getId())
 		{
-		 	
+		   case R.id.back_img:
+			   attachedActivity.finish();
+			  break;
 		  case R.id.xy_plane_con:
 		  {
 			 FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction();

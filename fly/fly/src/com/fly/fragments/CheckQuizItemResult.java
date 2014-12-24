@@ -24,7 +24,7 @@ import com.fly.app.FlyApplication;
 import com.fly.sdk.Option;
 import com.fly.sdk.Question;
 import com.fly.sdk.User;
-import com.fly.util.debug.Debug;
+import com.fly.util.Debug;
 
 public class CheckQuizItemResult extends BaseFramgment {
 	

@@ -51,7 +51,7 @@ import com.fly.sdk.job.UserScoreCreate;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.ui.dialog.AlertDialog;
 import com.fly.ui.dialog.LoadDialog;
-import com.fly.util.debug.Debug;
+import com.fly.util.Debug;
 
 public class QuizActivity extends BaseActivity  implements OnCheckedChangeListener,OnItemClickListener{
 	

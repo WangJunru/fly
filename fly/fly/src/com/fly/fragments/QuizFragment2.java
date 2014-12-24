@@ -20,7 +20,7 @@ import com.fly.ui.activity.LoginActivity;
 
 public class QuizFragment2 extends BaseFramgment {
 	private char jxChar ;
-	
+	private boolean activity ;
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -50,6 +50,8 @@ public class QuizFragment2 extends BaseFramgment {
 	
 	private  void  initView(View rootView)
 	{
+		Bundle bundle = getArguments();
+	    activity = bundle != null? bundle.getBoolean("new_activity"):false;
 		View backView = rootView.findViewById(R.id.back_img);
 		backView.setOnClickListener(this);
 		
@@ -91,12 +93,18 @@ public class QuizFragment2 extends BaseFramgment {
 		{
 		  case R.id.back_img:
 		  {
-		     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction();
-			 
-			 QuizFragment1 f1 = new QuizFragment1();
-			 tras.replace(R.id.main_content, f1);
-//				 tras.addToBackStack(null);
-			 tras.commit();
+			 if(activity)
+			 {
+				 attachedActivity.finish();
+			 }else 
+			 {
+			     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction();
+				 
+				 QuizFragment1 f1 = new QuizFragment1();
+				 tras.replace(R.id.main_content, f1);
+	//				 tras.addToBackStack(null);
+				 tras.commit();
+			 }
 		  }break;
 		  case R.id.xy_plane_con:
 			  break;
@@ -109,6 +117,7 @@ public class QuizFragment2 extends BaseFramgment {
 					 FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction(); 
 					 QuizFragment3 f2 = new QuizFragment3();
 					 Bundle dt = new Bundle();
+					 dt.putBoolean("new_activity", activity);
 					 dt.putChar("jzlx", 's');
 					 dt.putChar("jx", jxChar);
 					 f2.setArguments(dt);	 
@@ -131,6 +140,7 @@ public class QuizFragment2 extends BaseFramgment {
 				     FragmentTransaction tras =  attachedActivity.getSupportFragmentManager().beginTransaction(); 
 				     QuizFragment3 f2 = new QuizFragment3();
 					 Bundle dt = new Bundle();
+					 dt.putBoolean("new_activity", activity);
 					 dt.putChar("jzlx", 'b');
 					 dt.putChar("jx", jxChar);
 					 f2.setArguments(dt);	 
