@@ -215,6 +215,11 @@ public class LoginActivity extends BaseActivity {
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
+		if(userLoginTask != null)
+	    {
+	    	if(!userLoginTask.isComplete())
+	    	   taskManager.cancelTask(userLoginTask);
+	    }
 	}
 
 	@Override

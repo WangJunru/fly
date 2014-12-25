@@ -103,6 +103,7 @@
                 android:id="@+id/agree_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:button="@drawable/agree_check_selector"
                 android:layout_gravity="center_vertical" />
             <TextView

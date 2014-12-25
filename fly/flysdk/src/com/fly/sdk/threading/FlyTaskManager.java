@@ -1,5 +1,6 @@
 package com.fly.sdk.threading;
 
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -7,12 +8,14 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.job.Job;
+import com.fly.sdk.util.Log;
 
 public class FlyTaskManager {
       private static FlyTaskManager instance = null ;
      
-      
+      private  HashMap<Job, Future<Object>> taskBool = new HashMap<Job, Future<Object>>();
       private ExecutorService  excutors ;
       private FlyTaskManager(){
     	  excutors = Executors.newFixedThreadPool(3);
@@ -35,13 +38,29 @@ public class FlyTaskManager {
       
       public void commitJob(Job job,ResultCallback callback)
       {
+    	 
     	 Future<Object> futures =  excutors.submit(job); 
+    	 taskBool.put(job, futures);
     	 excutors.execute(new CaptureResultJob(job,futures,callback));
       }
       
       public void shutDownTask()
       {
     	  excutors.shutdownNow() ;
+      }
+      
+      public void cancelTask(Job job)
+      {
+    	 if(job == null)
+    		 return ;
+    	 
+    	 Future<Object>  task = taskBool.get(job);
+    	 if(task != null)
+    	 {
+    		 task.cancel(true);
+    	 }
+    	 taskBool.remove(job);
+    	 job.setComplete(true);
       }
       
       private class CaptureResultJob implements Runnable
@@ -66,6 +85,8 @@ public class FlyTaskManager {
 			    if(callBack != null)
 			    {
 			       callBack.notifyResult(result);
+			       this.job.setComplete(true);
+			       taskBool.remove(this.job);
 			    }
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -75,7 +96,16 @@ public class FlyTaskManager {
 				e.printStackTrace();
 			} catch (TimeoutException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.log(e.toString());
+				ErrorMsg errorMsg = job.getError();
+				errorMsg.setErrorCode(ErrorMsg.ERROR_EXECUTE_TIMEOUT);
+			    if(callBack != null)
+			    {
+			       callBack.notifyResult(errorMsg);
+			    }
+			}catch (Exception e) {
+				// TODO: handle exception
+				Log.log(e.toString());
 			}
 		}
       }

@@ -206,11 +206,12 @@
                     userinfo:label_text="@string/user_about_us" />
             </LinearLayout>
             
-               <com.fly.ui.view.UserInfoItemView
+            <com.fly.ui.view.UserInfoItemView
                 android:id="@+id/user_login_out"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/geren_zhuye_item_bg"
                 userinfo:label_text="@string/user_login_out" />
         </LinearLayout>

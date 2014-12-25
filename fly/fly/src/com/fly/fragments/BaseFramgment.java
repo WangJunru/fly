@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.fly.R;
+import com.fly.app.FlyApplication;
+import com.fly.sdk.threading.FlyTaskManager;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorListenerAdapter;
 import com.nineoldandroids.view.ViewHelper;
@@ -15,6 +17,7 @@ import com.nineoldandroids.view.ViewPropertyAnimator;
 public class BaseFramgment extends Fragment implements OnClickListener {
 
 	protected FragmentActivity attachedActivity;
+	protected FlyTaskManager  taskManager ;
 
 	private void animateClickView(final View v) {
 		// float factor = 1.1f;
@@ -36,6 +39,7 @@ public class BaseFramgment extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onAttach(activity);
 		attachedActivity = (FragmentActivity) activity;
+		taskManager = FlyApplication.getFlyTaskManager();
 	}
 
 	protected void clickView(View v) {

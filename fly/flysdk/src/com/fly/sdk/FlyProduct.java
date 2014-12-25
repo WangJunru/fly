@@ -84,4 +84,30 @@ public abstract class FlyProduct implements Serializable{
  	public void setTel(String tel) {
  		this.tel = tel;
  	}
+ 	
+ 	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj == null)
+			return false ;
+		
+		if(!(obj instanceof FlyProduct))
+		{
+			return false ;
+		}
+		FlyProduct product = (FlyProduct)obj ;
+		
+	    return this.id == product.getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return  (int)id ;
+	}
+ 	
+ 	
+ 	
+ 	
 }

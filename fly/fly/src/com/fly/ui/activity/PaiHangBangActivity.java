@@ -117,6 +117,16 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
 		}
     }
 
+    @Override
+    protected void onStop() {
+    	// TODO Auto-generated method stub
+    	super.onStop();
+    	if(flyTask != null)
+ 	    {
+ 	    	if(!flyTask.isComplete())
+ 	    	   taskManager.cancelTask(flyTask);
+ 	    }
+    }
 	@Override
 	public void clickUserPic(View v, Score score) {
 		// TODO Auto-generated method stub

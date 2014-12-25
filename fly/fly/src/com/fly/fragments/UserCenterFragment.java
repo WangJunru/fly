@@ -1,5 +1,6 @@
 package com.fly.fragments;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.sdk.User;
-import com.fly.sdk.job.UserUpdate;
+import com.fly.ui.activity.NoticeActivity;
+import com.fly.ui.activity.OrderActivity;
+import com.fly.ui.activity.Version;
 import com.fly.ui.view.UserInfoItemView;
 
 public class UserCenterFragment extends BaseFramgment {
@@ -145,7 +148,8 @@ public class UserCenterFragment extends BaseFramgment {
 		{
 		  case R.id.user_jd_info:// 订单信息
 		  {
-			  
+			  Intent intent = new Intent(attachedActivity,OrderActivity.class);
+			  startActivity(intent);
 		  }
 			break;
 		  case R.id.user_safe_info://重新设置密码
@@ -156,12 +160,14 @@ public class UserCenterFragment extends BaseFramgment {
 			break;
 		  case R.id.user_notice_info:// 用户通知
 		  {
-			  
+			  Intent intent = new Intent(attachedActivity,NoticeActivity.class);
+			  startActivity(intent);
 		  }
 			break;
 		  case R.id.user_about_info:// 版本信息
 		  {
-			  
+			  Intent intent = new Intent(attachedActivity,Version.class);
+			  startActivity(intent);
 		  }
 			 break;
 		  case R.id.user_login_out:// 用户注销

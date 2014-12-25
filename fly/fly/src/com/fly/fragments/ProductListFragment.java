@@ -53,6 +53,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	
 	private int spannViewWidth , spannViewHeight ;
 	private int productViewWidth ,productViewHeight ;
+	private Job taskJob ;
 	
 	public ProductListFragment(ArrayList<Product>  products,ArrayList<ProductBanner> panners)
 	{
@@ -84,18 +85,38 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		ArrayList<Product> data = DataCatcheTools.loadProductData(attachedActivity);
 		if(data == null || data.isEmpty())
 			return ;
-	    for(Product shObj : data)
+		spliteData(data);
+	}
+	
+	private void spliteData(ArrayList<Product> data) {
+		if(data == null || data.isEmpty())
+			return ;
+		for(Product shObj : data)
         {
     	  if(shObj instanceof ProductBanner)
     	  {
-    		  productspanner.add((ProductBanner)shObj);
+    		  if(productspanner.contains(shObj))
+    		  {
+    			  productspanner.remove(shObj);
+    			  productspanner.add((ProductBanner)shObj);
+    		  }else
+    		  {
+    			  productspanner.add((ProductBanner)shObj);
+    		  }
     	  }else
     	  {
-    		  products.add(shObj);
+    		  if(products.contains(shObj))
+    		  {
+    			  products.remove(shObj);
+    			  products.add(shObj);
+    		  }else
+    		  {
+    			  products.add(shObj);
+    		  }
+    		 
     	  }
        }
 	}
-	
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -108,7 +129,11 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onStop();
 		this.slidesView.onStop();
-		
+	    if(taskJob != null)
+	    {
+	    	if(!taskJob.isComplete())
+	    	   taskManager.cancelTask(taskJob);
+	    }
 	}
 	
 	@Override
@@ -248,16 +273,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	    		   if(obj != null)
 	    		   {
 	    		      ArrayList<Product> schools = (ArrayList<Product>)obj;
-	    		      for(Product shObj : schools)
-	    		      {
-	    		    	  if(shObj instanceof ProductBanner)
-	    		    	  {
-	    		    		  productspanner.add((ProductBanner)shObj);
-	    		    	  }else
-	    		    	  {
-	    		    		  products.add(shObj);
-	    		    	  }
-	    		      }
+	    		      spliteData(schools);
 	    		      updateViewData();
 	    		   }
 			   } break;
@@ -271,11 +287,11 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	};
     private void loadNetData()
 	{
-		Job job = new GetProductList(1);
+	    taskJob = new GetProductList(1);
 		FlyTaskManager  taskMng = FlyApplication.getFlyTaskManager();
 		if(taskMng != null)
 		{
-			taskMng.commitJob(job, new ResultCallback() {					
+			taskMng.commitJob(taskJob, new ResultCallback() {					
 				@Override
 				public void notifyResult(Object result) {
 					// TODO Auto-generated method stub

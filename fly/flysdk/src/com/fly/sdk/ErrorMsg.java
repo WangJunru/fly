@@ -6,6 +6,7 @@ public class ErrorMsg {
 	public final static  int  ERROR_USER_NAME_PASSWD_FAIL = 0 ;
 	public final static  int  ERROR_NETWORK_IO_ERROR = 1 ;
 	public final static  int  ERROR_USER_NAME_EXEIST = 2 ;
+	public final static  int  ERROR_EXECUTE_TIMEOUT  = 3 ;
 	
 	public final static  int  ERROR_SERVER_ERROR_HAPPENED = 255 ;
 	

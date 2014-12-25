@@ -72,6 +72,14 @@ public class StretchScrollView extends ScrollView {
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    	// TODO Auto-generated method stub
+    	super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    	setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), 
+    			heightMeasureSpec);
+    }
     @Override
     protected void onFinishInflate() {
         if (getChildCount() > 0) {

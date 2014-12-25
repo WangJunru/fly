@@ -14,120 +14,127 @@
         android:layout_alignParentTop="true"
         layout="@layout/top" />
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.fly.ui.view.ElasticScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/top_view"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        
+        android:scrollbars="none" >
 
         <RelativeLayout
-            android:id="@+id/user_pic_con"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="50dp" >
+            android:layout_height="wrap_content" 
+            android:layout_gravity="center_horizontal">
 
-            <!--  android:background="@drawable/user_pic_selector" -->
-            
-            <com.fly.ui.view.RoundImageView
-                android:id="@+id/user_picture_round"
+            <RelativeLayout
+                android:id="@+id/user_pic_con"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@drawable/user_pic_bg"
-                android:clickable="true"
-                android:contentDescription="@string/app_name"
-                android:scaleType="centerInside"
-                android:src="@drawable/default_user_pic"
-                imagecontrol:border_outside_color="@color/round_blue"
-                imagecontrol:border_thickness="2dp" />
+                android:layout_marginTop="50dp" >
+
+                <!-- android:background="@drawable/user_pic_selector" -->
+
+                <com.fly.ui.view.RoundImageView
+                    android:id="@+id/user_picture_round"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/user_pic_bg"
+                    android:clickable="true"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/default_user_pic"
+                    imagecontrol:border_outside_color="@color/round_blue"
+                    imagecontrol:border_thickness="2dp" />
+
+                <TextView
+                    android:id="@+id/user_msg_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/user_msg_no_bg"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/user_name_tx"
+                    style="@style/bottom_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture_round"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/user_name_defautl" />
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/user_msg_count"
+                android:id="@+id/kaosi_bz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/user_msg_no_bg"
-                android:visibility="gone" />
+                android:layout_below="@+id/user_pic_con"
+                android:layout_marginTop="50dp"
+                android:text="@string/quiz_biaoz"
+                android:textColor="@color/purple"
+                android:textSize="@dimen/pt_20" />
 
             <TextView
-                android:id="@+id/user_name_tx"
-                style="@style/bottom_text_style"
+                android:id="@+id/jige_bz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/user_picture_round"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="@string/user_name_defautl" />
+                android:layout_below="@+id/kaosi_bz"
+                android:layout_marginTop="5dp"
+                android:text="@string/quiz_jg_biaoz"
+                android:textColor="@color/purple"
+                android:textSize="@dimen/pt_20" />
+
+            <Button
+                android:id="@+id/moni_quiz_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/jige_bz"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/moni_quiz_bg"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="@string/moni_quiz"
+                android:textColor="@color/white"
+                android:textSize="@dimen/pt_17" />
+
+            <Button
+                android:id="@+id/weizuo_quiz_bt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/moni_quiz_bt"
+                android:layout_below="@+id/jige_bz"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/moni_quiz_bt"
+                android:background="@drawable/moni_quiz_bg"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:text="@string/xiankaoweizuo_quiz"
+                android:textColor="@color/white"
+                android:textSize="@dimen/pt_17" />
+
+            <TextView
+                android:id="@+id/moni_quiz_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moni_quiz_bt"
+                android:layout_marginTop="20dp"
+                android:text="@string/moni_quiz_e"
+                android:textColor="@color/purple"
+                android:textSize="@dimen/pt_17" />
+
+            <TextView
+                android:id="@+id/weizuo_quiz_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/moni_quiz_tv"
+                android:layout_marginTop="5dp"
+                android:text="@string/xiankaoweizuo_quiz_e"
+                android:textColor="@color/purple"
+                android:textSize="@dimen/pt_17" />
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/kaosi_bz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_pic_con"
-            android:layout_marginTop="50dp"
-            android:text="@string/quiz_biaoz"
-            android:textColor="@color/purple"
-            android:textSize="@dimen/pt_20" />
-
-        <TextView
-            android:id="@+id/jige_bz"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/kaosi_bz"
-            android:layout_marginTop="5dp"
-            android:text="@string/quiz_jg_biaoz"
-            android:textColor="@color/purple"
-            android:textSize="@dimen/pt_20" />
-
-        <Button
-            android:id="@+id/moni_quiz_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/jige_bz"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/moni_quiz_bg"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="@string/moni_quiz"
-            android:textColor="@color/white"
-            android:textSize="@dimen/pt_17" />
-
-        <Button
-            android:id="@+id/weizuo_quiz_bt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/moni_quiz_bt"
-            android:layout_below="@+id/jige_bz"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/moni_quiz_bt"
-            android:background="@drawable/moni_quiz_bg"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:text="@string/xiankaoweizuo_quiz"
-            android:textColor="@color/white"
-            android:textSize="@dimen/pt_17" />
-
-        <TextView
-            android:id="@+id/moni_quiz_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/moni_quiz_bt"
-            android:layout_marginTop="20dp"
-            android:text="@string/moni_quiz_e"
-            android:textColor="@color/purple"
-            android:textSize="@dimen/pt_17" />
-
-        <TextView
-            android:id="@+id/weizuo_quiz_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/moni_quiz_tv"
-            android:layout_marginTop="5dp"
-            android:text="@string/xiankaoweizuo_quiz_e"
-            android:textColor="@color/purple"
-            android:textSize="@dimen/pt_17" />
-    </RelativeLayout>
+    </com.fly.ui.view.ElasticScrollView>
 
 </RelativeLayout>

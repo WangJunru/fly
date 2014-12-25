@@ -1,188 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto" 
+<com.fly.ui.view.ElasticScrollView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:scrollbars="none"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <RelativeLayout
-        android:id="@+id/user_pic_con"
-        android:layout_marginTop="50dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true" >
- 
-          <!--   android:background="@drawable/user_pic_selector" -->
-         <com.fly.ui.view.RoundImageView
-            android:id="@+id/user_picture_round"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         >
+        <RelativeLayout
+            android:id="@+id/user_pic_con"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/user_pic_bg"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/default_user_pic"
-            android:scaleType="centerInside"
-            android:clickable="true"
-            imagecontrol:border_outside_color="@color/round_blue" 
-            imagecontrol:border_thickness="2dp"
-            android:contentDescription="@string/app_name" />
-        
-         <TextView android:id="@+id/user_msg_count"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:visibility="gone"
-             android:background="@drawable/user_msg_no_bg"/>
-        <TextView
-            android:id="@+id/user_name_tx"
-            style="@style/bottom_text_style"
+            android:layout_marginTop="50dp" >
+
+            <!-- android:background="@drawable/user_pic_selector" -->
+
+            <com.fly.ui.view.RoundImageView
+                android:id="@+id/user_picture_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/user_pic_bg"
+                android:clickable="true"
+                android:contentDescription="@string/app_name"
+                android:scaleType="centerInside"
+                android:src="@drawable/default_user_pic"
+                imagecontrol:border_outside_color="@color/round_blue"
+                imagecontrol:border_thickness="2dp" />
+
+            <TextView
+                android:id="@+id/user_msg_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/user_msg_no_bg"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/user_name_tx"
+                style="@style/bottom_text_style"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_picture_round"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/user_name_defautl" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/row_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_picture_round"
-            android:layout_marginTop="10dp"
-            android:text="@string/user_name_defautl"
-            android:layout_centerHorizontal="true" />
-        
+            android:layout_below="@+id/row_two"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/xy_plane_con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/plane_round_selector"
+                    android:clickable="true" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/plane_xy" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/jx_name"
+                    style="@style/first_page_mid_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/xy_plane" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/gdy_plane_con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/plane_round_selector"
+                    android:clickable="true" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/plane_gdy" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/first_page_mid_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/gdy_plane" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/row_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_pic_con"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/plane_jxk_con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/plane_round_selector"
+                    android:clickable="true" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/fx_zl" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/first_page_mid_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/fx_zl" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:orientation="vertical" >
+
+                <FrameLayout
+                    android:id="@+id/plane_school_con"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/plane_round_selector"
+                    android:clickable="true" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/plane_school" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/first_page_mid_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/th_school" />
+            </LinearLayout>
+        </LinearLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/row_one"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/row_two"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:orientation="horizontal" >
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-
-            <FrameLayout
-                android:id="@+id/xy_plane_con"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/plane_round_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/plane_xy" />
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/jx_name"
-                style="@style/first_page_mid_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/xy_plane" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:orientation="vertical" >
-
-            <FrameLayout
-                android:id="@+id/gdy_plane_con"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/plane_round_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/plane_gdy" />
-            </FrameLayout>
-
-            <TextView
-                style="@style/first_page_mid_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/gdy_plane" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/row_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_pic_con"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal" >
-          <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-          
-            android:orientation="vertical" >
-
-            <FrameLayout
-                android:id="@+id/plane_jxk_con"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/plane_round_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/fx_zl" />
-            </FrameLayout>
-
-            <TextView
-                style="@style/first_page_mid_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/fx_zl" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-              android:layout_marginLeft="30dp" >
-
-            <FrameLayout
-                android:id="@+id/plane_school_con"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/plane_round_selector"
-                android:clickable="true" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/plane_school" />
-            </FrameLayout>
-
-            <TextView
-                style="@style/first_page_mid_text_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/th_school" />
-        </LinearLayout>
-    </LinearLayout>
-
-</RelativeLayout>
+</com.fly.ui.view.ElasticScrollView>

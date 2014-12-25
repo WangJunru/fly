@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">fly</string>
+    <string name="app_name">麦飞机</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
@@ -163,7 +163,17 @@
      <string name="score_str">%1$.1f分</string>
      <string name="score_str_phb">%1$.1f分    查看排行榜</string>
      
-     
+     <!-- 关于页面 -->
+     <string name="about_us">关于我们</string>
+     <string name="about_us_info">麦飞机 版本%1$s\n\n
+         麦飞机是一家集飞行体验、飞行旅游、飞行培训及\n\n
+         飞机租售的一体化信息平台。
+         </string>
+         
+     <!-- 我的通知 -->
+     <string name="my_notice">我的通知</string>
+     <!-- 我的订单 -->
+     <string name="my_order">我的订单</string>
                                                                         
      
 </resources>
