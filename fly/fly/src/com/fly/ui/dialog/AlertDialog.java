@@ -107,7 +107,8 @@ public class AlertDialog {
 		btn_pos.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				listener.onClick(v);
+				if(listener != null )
+				     listener.onClick(v);
 				dialog.dismiss();
 			}
 		});
@@ -125,7 +126,8 @@ public class AlertDialog {
 		btn_neg.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				listener.onClick(v);
+				if(listener != null )
+				     listener.onClick(v);
 				dialog.dismiss();
 			}
 		});

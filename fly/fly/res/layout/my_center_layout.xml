@@ -15,206 +15,211 @@
         android:layout_alignParentTop="true"
         layout="@layout/top" />
 
-    <RelativeLayout
-        android:id="@+id/user_pic_con"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/top_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
-
-        <!-- android:background="@drawable/user_pic_selector" -->
-        
-        <com.fly.ui.view.RoundImageView
-            android:id="@+id/user_picture_round"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/user_pic_bg"
-            android:clickable="true"
-            android:contentDescription="@string/app_name"
-            android:scaleType="centerInside"
-            android:src="@drawable/default_user_pic"
-            imagecontrol:border_outside_color="@color/round_blue"
-            imagecontrol:border_thickness="2dp" />
-
-        <TextView
-            android:id="@+id/user_msg_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/user_msg_no_bg"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/user_name_tx"
-            style="@style/bottom_text_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_picture_round"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="@string/user_name_defautl" />
-    </RelativeLayout>
-
-    <ScrollView
-        android:id="@+id/geren_info_con"
+    <com.fly.ui.view.ElasticScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/user_pic_con"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" >
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_view"
+        android:scrollbars="none" >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="vertical"
-            android:isScrollContainer="true"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" >
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                android:id="@+id/user_pic_con"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp" >
+
+                <!-- android:background="@drawable/user_pic_selector" -->
+
+                <com.fly.ui.view.RoundImageView
+                    android:id="@+id/user_picture_round"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/user_pic_bg"
+                    android:clickable="true"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/default_user_pic"
+                    imagecontrol:border_outside_color="@color/round_blue"
+                    imagecontrol:border_thickness="2dp" />
+
+                <TextView
+                    android:id="@+id/user_msg_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/user_msg_no_bg"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/user_name_tx"
+                    style="@style/bottom_text_style"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_picture_round"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/user_name_defautl" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/geren_zhuye_item_bg"
-                android:orientation="vertical" >
+                android:layout_below="@+id/user_pic_con"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" >
 
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_name_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_name_str" />
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/geren_zhuye_item_split"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
+                    android:background="@drawable/geren_zhuye_item_bg"
+                    android:orientation="vertical" >
 
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_email_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_email_str" />
-            </LinearLayout>
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_name_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_name_str" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/geren_zhuye_item_bg"
-                android:orientation="vertical" >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
 
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_sex_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_sex_str" />
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_email_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_email_str" />
+                </LinearLayout>
 
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/geren_zhuye_item_split"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/geren_zhuye_item_bg"
+                    android:orientation="vertical" >
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_sex_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_sex_str" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_erea_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_area_str" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_tel_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_tel_str" />
+                </LinearLayout>
 
                 <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_erea_info"
+                    android:id="@+id/user_best_cj"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_area_str" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/geren_zhuye_item_bg"
+                    userinfo:label_text="@string/user_zhcj_str" />
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/geren_zhuye_item_split" />
-
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_tel_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_tel_str" />
-            </LinearLayout>
-
-            <com.fly.ui.view.UserInfoItemView
-                android:id="@+id/user_best_cj"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/geren_zhuye_item_bg"
-                userinfo:label_text="@string/user_zhcj_str" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/geren_zhuye_item_bg"
-                android:orientation="vertical" >
-
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_jd_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_wdjd_str" />
-
-                <ImageView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/geren_zhuye_item_split"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp" />
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/geren_zhuye_item_bg"
+                    android:orientation="vertical" >
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_jd_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_wdjd_str" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_safe_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_aq_set_str" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_notice_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_notice_str" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:contentDescription="@string/app_name"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:src="@drawable/geren_zhuye_item_split" />
+
+                    <com.fly.ui.view.UserInfoItemView
+                        android:id="@+id/user_about_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        userinfo:label_text="@string/user_about_us" />
+                </LinearLayout>
 
                 <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_safe_info"
+                    android:id="@+id/user_login_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_aq_set_str" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/geren_zhuye_item_split" />
-
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_notice_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_notice_str" />
-                
-                  <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/app_name"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@drawable/geren_zhuye_item_split" />
-
-                <com.fly.ui.view.UserInfoItemView
-                    android:id="@+id/user_about_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    userinfo:label_text="@string/user_about_us" />
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/geren_zhuye_item_bg"
+                    userinfo:label_text="@string/user_login_out" />
             </LinearLayout>
-            
-            <com.fly.ui.view.UserInfoItemView
-                android:id="@+id/user_login_out"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/geren_zhuye_item_bg"
-                userinfo:label_text="@string/user_login_out" />
-        </LinearLayout>
-    </ScrollView>
+        </RelativeLayout>
+    </com.fly.ui.view.ElasticScrollView>
 
 </RelativeLayout>

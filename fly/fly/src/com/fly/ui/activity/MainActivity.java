@@ -58,9 +58,9 @@ public class MainActivity extends BaseActivity implements FourRoundClickListener
 		fxGarage.setOnClickListener(this);
 	}
 	
-	private void setBottomViewSrc(View v)
+	public void setBottomViewSrc(int id)
 	{
-		switch (v.getId()) {
+		switch (id) {
 		
 		case R.id.sy:
 		{
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements FourRoundClickListener
 	
 	public void clickView(View v)
 	{	
-		setBottomViewSrc(v);
+		setBottomViewSrc(v.getId());
 		switch (v.getId()) {
 		
 		case R.id.sy:

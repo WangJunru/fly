@@ -4,14 +4,16 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
@@ -27,9 +29,9 @@ import com.fly.app.FlyApplication;
 import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.User;
 import com.fly.sdk.job.UserLogin;
-import com.fly.sdk.threading.FlyTaskManager;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.util.Debug.log;
+import com.fly.view.ui.utils.DataUtils;
 
 public class LoginActivity extends BaseActivity {
 
@@ -49,6 +51,8 @@ public class LoginActivity extends BaseActivity {
 	private UserLogin userLoginTask;
 
 	private Thread loadUserPicThread;
+	
+	private String userName ,userPasswd ;
 
 	@Override
 	public void handleUIHandlerMessage(Message msg) {
@@ -88,6 +92,7 @@ public class LoginActivity extends BaseActivity {
 			if (loginMaskDialog != null) {
 				loginMaskDialog.dismiss();
 			}
+			DataUtils.saveLoginedUserInfo(this,userName,userPasswd);
 			setResult(RESULT_OK);
 			LoginActivity.this.finish();
 		}
@@ -237,16 +242,16 @@ public class LoginActivity extends BaseActivity {
 			finish();
 			break;
 		case R.id.user_login: {
-			String name = userNameEd.getText().toString();
-			if (TextUtils.isEmpty(name)) {
+			userName = userNameEd.getText().toString();
+			if (TextUtils.isEmpty(userName)) {
 				userNameEd.requestFocus();
-				Toast.makeText(this, "用户名忘记输入了", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this,R.string.name_empty_tip, Toast.LENGTH_SHORT).show();
 				return;
 			}
 
-			String passwd = passwdEd.getText().toString();
+			userPasswd = passwdEd.getText().toString();
 			if (taskManager != null) {
-				userLoginTask = new UserLogin(name, name, passwd);
+				userLoginTask = new UserLogin(userName, userName, userPasswd);
 
 				taskManager.commitJob(userLoginTask, new LoginResultCapture());
 				loginBt.setEnabled(false);
