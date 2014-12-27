@@ -110,6 +110,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     	 backView.setOnClickListener(this);
     	 
     	 View  shareView = findViewById(R.id.share_img);
+    	 shareView.setVisibility(View.INVISIBLE);
     	 shareView.setOnClickListener(this); 
     	 
     	 View priTestView = findViewById(R.id.sy);
@@ -281,7 +282,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     		   }
     	   }
     		 break;
-    	   case 1: // ï¿½ï¿½ï¿½Â¿ï¿½ï¿½Ôµï¿½ï¿½ï¿½Ê±
+    	   case 1: // ¿¼ÊÔµ¹¼ÆÊ±
     	   {
     		   ksTotalTimes -- ;
     		   hours = ksTotalTimes/3600;
@@ -306,7 +307,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     			 showQuizTimeoutDialog();
     		   }
     	   } break;
-    	   case 2: // ï¿½á½»ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ó¦ ï¿½ï¿½
+    	   case 2: // Ìá½»³É¹¦
     	   {
     		   if(loadQstMaskDialog != null)
 			   {
@@ -330,9 +331,10 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
 	    			   intent.putExtra("seconds", usedSeconds%60);
 	    			   startActivity(intent);
     			   }
+    			   this.finish();   
     		   }
     	   }break;
-    	   case 3://  // ï¿½á½»ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ó¦  ï¿½ï¿½ï¿½ï¿½
+    	   case 3://  // Ìá½»Ê§°Ü
     	   {
     		   if(loadQstMaskDialog != null)
 			   {
@@ -412,20 +414,40 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
         switch(v.getId())
         {
            case R.id.back_img:
-			  this.finish();
-			  break;
-           case R.id.sy: // ï¿½ï¿½Ò»ï¿½ï¿½
+           {  	   
+        	   AlertDialog alertDlg = new AlertDialog(this).builder().
+        	   setMsg(getString(isFininishKt() == false? R.string.tuichu_ks:R.string.tuichu_wc_ks))
+           	  .setPositiveButton("Ìá½»", new OnClickListener() {
+ 				@Override
+ 				public void onClick(View v) {
+ 					// TODO Auto-generated method stub
+ 					dealWithJiaoJuanJob();
+   					showTaskDoingDialog(R.string.commit_quiz_dlg_info);
+ 				}
+   			}).setNegativeButton("ÍË³ö", new OnClickListener() {
+ 				@Override
+ 				public void onClick(View v) {
+ 					// TODO Auto-generated method stub	
+ 					QuizActivity.this.finish();
+ 				}
+   			});
+              alertDlg.setCanceledOnTouchOutside(false);
+           	alertDlg.setCancelable(false);
+             alertDlg.show();       
+			  
+           } break;
+           case R.id.sy: // ÉÏÒ»Ìâ
         	  curQuestionIndex--;
         	  showQustion();
         	break;
-           case R.id.ks: // Î´ï¿½ï¿½
+           case R.id.ks: // Î´×ö
         	  showWeizuoPopWindown();
         	break;
-           case R.id.hx: // ï¿½ï¿½ï¿½ï¿½
+           case R.id.hx: // ½»¾í
            {
         	  showJiaoJuanDialog();
            } break;
-           case R.id.jk: // ï¿½ï¿½Ò»ï¿½ï¿½
+           case R.id.jk: // ÏÂÒ»Ìâ
         	  curQuestionIndex++;
         	  showQustion();
         	break;
@@ -434,7 +456,8 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
 
     private void  showJiaoJuanDialog()
     {
-          AlertDialog alertDlg = new AlertDialog(this).builder().setMsg(getString(R.string.jiao_queren))
+          AlertDialog alertDlg = new AlertDialog(this).builder().setMsg(isFininishKt() == false?
+        		  getString(R.string.jq_wdw):getString(R.string.jq_wdw))
           	  .setPositiveButton(getString(R.string.yes), new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -453,6 +476,18 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
             alertDlg.show();       
     }
     
+    private boolean isFininishKt()
+    {
+    	 int size = questions.size();
+ 	    for(int i = 0 ;i < size ; i ++ )
+ 	    {
+ 	    	if(questions.get(i).getAnwseredOptIndex() == -1)
+ 	    	{
+ 	    	   return false ;
+ 	    	}
+ 	    }
+ 	    return true ;
+    }
     private void dealWithJiaoJuanJob()
     {
     	ArrayList<Question> allAnsweredQts = new ArrayList<Question>();

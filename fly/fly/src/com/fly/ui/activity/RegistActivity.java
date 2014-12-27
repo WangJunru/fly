@@ -1,8 +1,6 @@
 package com.fly.ui.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,7 +16,6 @@ import com.fly.R;
 import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.User;
 import com.fly.sdk.job.UserRegist;
-import com.fly.sdk.threading.FlyTaskManager;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.ui.dialog.LoadDialog;
 import com.fly.util.Tools;
@@ -29,7 +26,7 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 	private EditText emailEd;
 	private EditText passwdEd;
 
-	private boolean isPropAgree;
+	private boolean isPropAgree = true;
 	private UserRegist registTask;
     
 	private LoadDialog loadDiag ;
@@ -101,6 +98,13 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 				Toast.makeText(this, R.string.passwd_too_short,
 						Toast.LENGTH_SHORT).show();
 				return;
+			}
+			
+			if(!isPropAgree)
+			{
+				Toast.makeText(this, R.string.please_check_mfj_prot,
+						Toast.LENGTH_SHORT).show();
+			    return ;
 			}
 
 			if (taskManager != null) {

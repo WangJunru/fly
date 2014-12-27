@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -37,10 +38,15 @@ public class ResetPassword extends Job {
 			
 			HttpResponse response = httpClent.execute(post);
 			int statusCode = response.getStatusLine().getStatusCode();
-			String  jsonStr = HttpUtils.readHttpBody(response.getEntity().getContent());
+			HttpEntity responseEntity = response.getEntity();
+			String  jsonStr = null ;
+			if(responseEntity != null)
+			{
+			     jsonStr = HttpUtils.readHttpBody(responseEntity.getContent());
+			}
 			if( (statusCode/100) == 2)
 			{
-				return "reset_ok";
+				return "ok";
 			}else if(statusCode /100 == 4)
 			{
 				 errorMsg = FlyJSonUtil.parseErrorJsonString(jsonStr);
