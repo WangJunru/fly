@@ -1,12 +1,6 @@
 package com.fly.util;
 
-/**
- * 日志配置
- * Created with IntelliJ IDEA.
- * Author: wangjie  email:tiantian.china.2@gmail.com
- * Date: 14-3-26
- * Time: 下午4:12
- */
+
 public class LogConfig {
     private boolean debug = true; // 开启控制台输出模式
     private boolean logFile = false; // 开启客户端本地日志记录模式

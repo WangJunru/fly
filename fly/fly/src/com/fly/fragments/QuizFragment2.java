@@ -57,6 +57,7 @@ public class QuizFragment2 extends BaseFramgment {
 		
 		View shareView = rootView.findViewById(R.id.share_img);
 		shareView.setOnClickListener(this);
+		shareView.setVisibility(View.INVISIBLE);
 		
 		TextView  title = (TextView)rootView.findViewById(R.id.title);
 		title.setText(R.string.quiz_title);

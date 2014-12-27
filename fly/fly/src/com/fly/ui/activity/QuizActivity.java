@@ -281,7 +281,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     		   }
     	   }
     		 break;
-    	   case 1: // ¸üÐÂ¿¼ÊÔµ¹¼ÆÊ±
+    	   case 1: // ï¿½ï¿½ï¿½Â¿ï¿½ï¿½Ôµï¿½ï¿½ï¿½Ê±
     	   {
     		   ksTotalTimes -- ;
     		   hours = ksTotalTimes/3600;
@@ -306,7 +306,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     			 showQuizTimeoutDialog();
     		   }
     	   } break;
-    	   case 2: // Ìá½»¿¼ÊÔ½á¹û»ØÓ¦ Õý³£
+    	   case 2: // ï¿½á½»ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ó¦ ï¿½ï¿½
     	   {
     		   if(loadQstMaskDialog != null)
 			   {
@@ -332,7 +332,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     			   }
     		   }
     	   }break;
-    	   case 3://  // Ìá½»¿¼ÊÔ½á¹û»ØÓ¦  ´íÎó
+    	   case 3://  // ï¿½á½»ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½Ó¦  ï¿½ï¿½ï¿½ï¿½
     	   {
     		   if(loadQstMaskDialog != null)
 			   {
@@ -377,7 +377,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     	 }
     	 
     	 Question qt = questions.get(curQuestionIndex);    	
-    	 ktTv.setText(curQuestionIndex+1+"¡¢	"+qt.getSubject());
+    	 ktTv.setText(curQuestionIndex+1+"¡¢"+qt.getSubject());
     	 
     	 ktItemsContainer.removeAllViews();
     	 
@@ -414,18 +414,18 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
            case R.id.back_img:
 			  this.finish();
 			  break;
-           case R.id.sy: // ÉÏÒ»Ìâ
+           case R.id.sy: // ï¿½ï¿½Ò»ï¿½ï¿½
         	  curQuestionIndex--;
         	  showQustion();
         	break;
-           case R.id.ks: // Î´×÷
+           case R.id.ks: // Î´ï¿½ï¿½
         	  showWeizuoPopWindown();
         	break;
-           case R.id.hx: // ½»¾í
+           case R.id.hx: // ï¿½ï¿½ï¿½ï¿½
            {
         	  showJiaoJuanDialog();
            } break;
-           case R.id.jk: // ÏÂÒ»Ìâ
+           case R.id.jk: // ï¿½ï¿½Ò»ï¿½ï¿½
         	  curQuestionIndex++;
         	  showQustion();
         	break;

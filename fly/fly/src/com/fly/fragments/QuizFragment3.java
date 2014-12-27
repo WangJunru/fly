@@ -93,6 +93,7 @@ public class QuizFragment3 extends BaseFramgment  implements OnGlobalLayoutListe
 		
 		View sharedView  = rootView.findViewById(R.id.share_img);
 		sharedView.setOnClickListener(this);
+		sharedView.setVisibility(View.INVISIBLE);
 		
 		TextView  titleView = (TextView)rootView.findViewById(R.id.title);
 		
