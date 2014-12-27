@@ -16,6 +16,7 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.fly.R;
+import com.fly.util.debug.Debug;
 
 public class RoundImageView extends NetImageView{
 	 private int mBorderThickness = 0;  
@@ -114,6 +115,9 @@ public class RoundImageView extends NetImageView{
 	                    : defaultHeight) / 2;  
 	        }  
 	        Bitmap roundBitmap = getCroppedRoundBitmap(bitmap, radius);  
+	        
+	        Debug.log.i("pic", "width="+roundBitmap.getWidth()+"height"+ roundBitmap.getHeight());
+	        
 	        canvas.drawBitmap(roundBitmap, defaultWidth / 2 - radius, defaultHeight  
 	                / 2 - radius, null);  
 	    }  

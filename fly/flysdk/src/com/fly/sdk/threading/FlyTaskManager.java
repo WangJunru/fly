@@ -98,6 +98,10 @@ public class FlyTaskManager {
 				// TODO Auto-generated catch block
 				Log.log(e.toString());
 				ErrorMsg errorMsg = job.getError();
+				if(errorMsg == null)
+				{
+					errorMsg = new ErrorMsg();
+				}
 				errorMsg.setErrorCode(ErrorMsg.ERROR_EXECUTE_TIMEOUT);
 			    if(callBack != null)
 			    {

@@ -1,9 +1,12 @@
 package com.fly.sdk.test;
 
+import java.awt.Checkbox;
 import java.io.File;
 import java.util.List;
 
+import com.fly.sdk.CheckCode;
 import com.fly.sdk.User;
+import com.fly.sdk.job.CheckCodeGet;
 import com.fly.sdk.job.QuestionDownload;
 import com.fly.sdk.job.UpdatePassword;
 import com.fly.sdk.job.UserLogin;
@@ -37,13 +40,14 @@ public class SdkTest {
           
         // Login
           Log.log("-------------login -----------------------");
-          UserLogin userLoginJob = new UserLogin("joegana","supersky1986@126.com","123456");
+          UserLogin userLoginJob = new UserLogin("joegana","supersky1986@126.com","1234567");
           taskManager.commitJob(userLoginJob, new ResultCallback() {
   			@Override
   			public void notifyResult(Object result) {
   				// TODO Auto-generated method stub
   				if(result != null)
   				{
+  					Log.log(result.toString());
   					if(result instanceof User)
   					{
   						loginedUser  = (User)result ;
@@ -189,6 +193,18 @@ public class SdkTest {
         	 
          });
          
+         CheckCodeGet getCode = new CheckCodeGet("13512170376",11);
+         taskManager.commitJob(getCode, new ResultCallback() {
+			
+			@Override
+			public void notifyResult(Object result) {
+				// TODO Auto-generated method stub
+				if(result != null &&(result instanceof CheckCode))
+				{
+					System.out.println(result);
+				}
+			}
+		});
          
          
 //        try {
@@ -221,5 +237,8 @@ public class SdkTest {
     	//taskManager.shutDownTask();
 //          int a = 201 ;
 //    	  System.out.println(a/100);
+         
+         
+         
       }
 }

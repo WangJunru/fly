@@ -26,4 +26,14 @@ public class NoticeActivity extends BaseActivity {
       	shareView.setVisibility(View.INVISIBLE);
       	
       }
+      
+      public void clickView(View v)
+      {
+    	  switch(v.getId())
+    	  {
+    	    case R.id.back_img:
+    	    	finish();
+    		  break;
+    	  }
+      }
 }

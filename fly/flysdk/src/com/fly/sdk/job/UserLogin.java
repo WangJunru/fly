@@ -15,6 +15,7 @@ import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.SdkConfig;
 import com.fly.sdk.User;
 import com.fly.sdk.http.HttpUtils;
+import com.fly.sdk.http.MyHttpGet;
 import com.fly.sdk.util.Log;
 import com.fly.sdk.util.TextUtils;
 
@@ -66,7 +67,26 @@ public class UserLogin  extends Job{
 		   String jsonStr = HttpUtils.readHttpBody(response.getEntity().getContent());
 		   if((statusCode/100) == 2)
 		   {
-				return FlyJSonUtil.parseUserJsonString(jsonStr);
+				User user =  FlyJSonUtil.parseUserJsonString(jsonStr);
+				MyHttpGet get = new MyHttpGet(String.format(SdkConfig.API_URI_USER_DETAILS,user.getId() ));
+				List<BasicNameValuePair>  valuess  = new ArrayList<BasicNameValuePair>();
+				valuess.add(new BasicNameValuePair("user_email", user.getEmail()));
+				valuess.add(new BasicNameValuePair("user_token", user.getUserToken()));
+			    HttpEntity entity1 = new UrlEncodedFormEntity(valuess,SdkConfig.HTTP_ENCODING);
+			    get.setEntity(entity1);		   
+			    HttpResponse  response1 = httpClent.execute(get);
+			    String jsonStr1 = HttpUtils.readHttpBody(response1.getEntity().getContent());
+			    int statusCode1 = response1.getStatusLine().getStatusCode();
+			    if((statusCode1/100) == 2)
+			    {
+			    	User user1 =  FlyJSonUtil.parseUserJsonString(jsonStr1);
+			    	user.setBestScore(user1.getBestScore());
+			    	user.setRank(user1.getRank());
+			    	user.setRole(user1.getRole());
+			    	user.setCellNumber(user1.getCellNumber());
+			    	user.setAddress(user.getAddress());
+			    }
+			    return user ;
 			}else if((statusCode/100) == 4)
 			{
 				errorMsg = FlyJSonUtil.parseErrorJsonString(jsonStr);

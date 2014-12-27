@@ -24,4 +24,20 @@ public class OrderActivity extends BaseActivity {
 	      	shareView.setVisibility(View.INVISIBLE);
 	      	
 	      }
+	      
+	      public void clickView(View v)
+	      {
+	    	  switch(v.getId())
+	    	  {
+	    	    case R.id.back_img:
+	    	    {
+	    	    	finish();
+	    	    }
+	    		  break;
+	    	    case R.id.share_img:
+	    	    {
+	    	    	
+	    	    }break;
+	    	  }
+	      }
 }

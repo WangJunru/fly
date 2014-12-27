@@ -179,7 +179,7 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return  "{"+name+":"+email+":"+userToken+":"+role+"}";
+		return  "{"+"id:"+id+"name:"+name+":"+email+":"+userToken+":"+role+"top_score:"+bestScore+"}";
 	}
 	
 }

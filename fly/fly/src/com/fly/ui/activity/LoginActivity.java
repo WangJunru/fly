@@ -95,6 +95,14 @@ public class LoginActivity extends BaseActivity {
 			DataUtils.saveLoginedUserInfo(this,userName,userPasswd);
 			setResult(RESULT_OK);
 			LoginActivity.this.finish();
+		}break;
+		case 4:
+		{
+			if (loginMaskDialog != null) {
+				loginMaskDialog.dismiss();
+			}
+			Toast.makeText(LoginActivity.this, R.string.request_timeout,
+					Toast.LENGTH_SHORT).show();
 		}
 			break;
 		}
@@ -126,8 +134,23 @@ public class LoginActivity extends BaseActivity {
 								uiHandler.obtainMessage(2).sendToTarget();
 						}
 							break;
+						case  ErrorMsg.ERROR_EXECUTE_TIMEOUT:
+						{
+							if (uiHandler != null)
+								uiHandler.obtainMessage(4).sendToTarget();
+						}break;
 						}
 					}
+				}
+			}else
+			{
+				ErrorMsg error = userLoginTask.getError();
+				switch (error.getErrorCode()) {
+				  case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+					if (uiHandler != null)
+						uiHandler.obtainMessage(2).sendToTarget();
+				}
+					break;
 				}
 			}
 		}
@@ -143,16 +166,17 @@ public class LoginActivity extends BaseActivity {
 				@Override
 				public void run() {
 					// TODO Auto-generated method stub
+					Bitmap pic = null ;
 					try {
 						URL urls = new URL(url);
 						URLConnection urlConn = urls.openConnection();
-						Bitmap pic = BitmapFactory.decodeStream(urlConn
+					    pic = BitmapFactory.decodeStream(urlConn
 								.getInputStream());
-						Message.obtain(uiHandler, 3, pic).sendToTarget();
 					} catch (Exception e) {
 						// TODO: handle exception
 						log.e("load_pic", e.toString());
 					}
+					Message.obtain(uiHandler, 3, pic).sendToTarget();
 				}
 			});
 		}

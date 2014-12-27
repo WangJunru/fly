@@ -19,15 +19,17 @@ import com.fly.sdk.User;
 import com.fly.sdk.job.Job;
 import com.fly.sdk.job.TopTenScoreListGet;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
+import com.fly.ui.dialog.LoadDialog;
 import com.fly.ui.view.ScorePaiHangItemView;
 import com.fly.ui.view.ScorePaiHangItemView.OnUserPicClickListener;
+import com.fly.view.ui.utils.DialogUtils;
 
 public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickListener{
 	private LinearLayout phConItem ;
 	private TextView  myRankTv ;
 	private ArrayList<Score>  scores = new ArrayList<Score>();
 	private Job flyTask ;
-	
+	private LoadDialog  dlg ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
@@ -60,6 +62,9 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
     	if(scores.isEmpty())
     	{
     		flyTask = new TopTenScoreListGet();
+    		dlg = new LoadDialog(this).builder();
+    		dlg.setMessage("ÕýÔÚÇëÇó...");
+    		dlg.show();
     		taskManager.commitJob(flyTask, new ResultCallback() {		
 				@Override
 				public void notifyResult(Object result) {
@@ -76,6 +81,11 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
 			});
     	}else
     	{
+    		if(dlg != null)
+    		{
+    			dlg.dismiss();
+    			dlg = null ;
+    		}
     		for(Score score:this.scores)
     		{
     			ScorePaiHangItemView view = new ScorePaiHangItemView(this);

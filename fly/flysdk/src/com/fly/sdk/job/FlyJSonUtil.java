@@ -6,6 +6,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONTokener;
 
+import com.fly.sdk.CheckCode;
 import com.fly.sdk.Comment;
 import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.FlyProduct;
@@ -82,23 +83,27 @@ public class FlyJSonUtil {
 					}
 
 					if (jobj.has("avatar")) {
-						JSONObject avatar = jobj.getJSONObject("avatar");
-						if (!avatar.isNullObject()) {
-							if (avatar.has("url")) {
-								user.setUserPictureUri(avatar.getString("url"));
-							}
-
-							if (avatar.has("thumb")) {
-								JSONObject thumb = avatar
-										.getJSONObject("thumb");
-								if (!thumb.isNullObject()) {
-									if (thumb.has("url")) {
-										user.setUserPictureUri(thumb
-												.getString("url"));
+						Object avatar1 = jobj.get("avatar");
+						if(avatar1 instanceof JSONObject)
+						{
+							JSONObject avatar = (JSONObject)avatar1;
+							if (!avatar.isNullObject()) {
+								if (avatar.has("url")) {
+									user.setUserPictureUri(avatar.getString("url"));
+								}
+	
+								if (avatar.has("thumb")) {
+									JSONObject thumb = avatar
+											.getJSONObject("thumb");
+									if (!thumb.isNullObject()) {
+										if (thumb.has("url")) {
+											user.setUserPictureUri(thumb
+													.getString("url"));
+										}
 									}
 								}
-							}
-						} else {
+							} 
+						}else {
 							user.setUserPictureUri(jobj.getString("avatar"));
 						}
 					}
@@ -110,7 +115,15 @@ public class FlyJSonUtil {
 						user.setGender(jobj.getString("gender"));
 					}
 					if (jobj.has("top_score")) {
-						user.setBestScore(jobj.getDouble("top_score"));
+						
+						String str =  jobj.getString("top_score");					
+						try{
+					      float f = Float.parseFloat(str);
+					      user.setBestScore(f);
+						}catch (Exception e) {
+							// TODO: handle exception
+						   user.setBestScore(0);
+						}
 					}
 
 					return user;
@@ -1048,6 +1061,55 @@ public class FlyJSonUtil {
 		    	}
 		    	return notices ;
 		    }
+		}
+		return null ;
+	}
+	
+	public static CheckCode  parseCheckCodeJsonString(String json,boolean check)
+	{
+		if(TextUtils.isEmpty(json))
+		{
+			return null ;
+		}
+		
+		JSONTokener jsontokener = new JSONTokener(json);
+		while(jsontokener.more())
+		{
+			JSONObject jobj = (JSONObject) jsontokener.nextValue();
+			if (!jobj.isNullObject()) {
+			   if(jobj.has("user"))	
+			   {
+				   JSONObject ch = jobj.getJSONObject("user");
+				   if(!ch.isNullObject())
+				   {
+					   CheckCode code = new CheckCode();
+					   if(ch.has("user_id"))
+					   {
+						   code.setUserID(ch.getLong("user_id"));
+					   }
+					   if(ch.has("batch_code"))
+					   {
+						   code.setBatchCode(ch.getString("batch_code"));
+					   }
+					   if(ch.has("cell"))
+					   {
+						   code.setCellNumber(ch.getString("cell"));
+					   }
+					   return code ;
+				   }
+			   }
+			   if(jobj.has("error"))
+			   {
+				   CheckCode code = new CheckCode();
+				   if(check)
+				   {
+					   code.setErrorCode(CheckCode.WRONG_CHEDK_CODE);
+				   }else
+				   {
+					   code.setErrorCode(CheckCode.GET_CODE_FAILED);
+				   }  
+			   }
+			}
 		}
 		return null ;
 	}

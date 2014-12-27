@@ -5,15 +5,20 @@
     android:id="@+id/root_view_id"
     android:orientation="vertical" 
     android:background="@drawable/guide4_02">
-    
-    <ImageButton  android:id="@+id/start_bt"
+
+    <ImageButton
+        android:id="@+id/start_bt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/app_name"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/ancor"
+        android:layout_marginBottom="80dp"
         android:background="@null"
-        android:src="@drawable/start_up_0"
-        android:layout_marginBottom="110dp"/>
-    
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/start_up_0" />
+    <View android:id="@+id/ancor"
+       android:visibility="invisible"
+         android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"/>
 </RelativeLayout>

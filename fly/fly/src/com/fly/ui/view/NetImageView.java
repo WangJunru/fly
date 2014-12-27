@@ -1,10 +1,11 @@
 package com.fly.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.fly.R;
 import com.fly.sdk.util.TextUtils;
 
 public class NetImageView extends ImageView {
@@ -39,6 +40,18 @@ public class NetImageView extends ImageView {
 
 	public String getNetImageUrl() {
 		return this.netImageUri;
+	}
+	
+	public void  setImageDrawable(Drawable d)
+	{
+		super.setImageDrawable(d);
+		invalidate();
+	}
+	
+	public void setImageBitmap(Bitmap b)
+	{
+		super.setImageBitmap(b);
+		invalidate();
 	}
 
 }

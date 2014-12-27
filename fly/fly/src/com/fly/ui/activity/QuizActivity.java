@@ -206,7 +206,7 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
     		  
     		   userEmal  =  user.getEmail();
     		   userToken =  user.getUserToken();
-	    	   QuestionDownload  questionDownJob = new QuestionDownload(userEmal,userToken,language,qtsGroup,planeType);
+	    	   final  QuestionDownload  questionDownJob = new QuestionDownload(userEmal,userToken,language,qtsGroup,planeType);
 	    	   
 	           taskManager.commitJob(questionDownJob, new ResultCallback() {
 	
@@ -226,8 +226,28 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
 								}	
 							 });
 	  					  Message.obtain(uiHandler, 0, qts).sendToTarget();
+	  					}else if(result instanceof ErrorMsg)
+	  					{
+	  						ErrorMsg error = questionDownJob.getError();
+		  					switch (error.getErrorCode()) {
+		  					  case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+		  						if (uiHandler != null)
+		  							uiHandler.obtainMessage(4).sendToTarget();
+		  					}
+		  						break;
+		  					}
 	  					}
 	  				  
+	  				}else
+	  				{
+	  					ErrorMsg error = questionDownJob.getError();
+	  					switch (error.getErrorCode()) {
+	  					  case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+	  						if (uiHandler != null)
+	  							uiHandler.obtainMessage(4).sendToTarget();
+	  					}
+	  						break;
+	  					}
 	  				}
 	  			}
 	          	 
@@ -322,6 +342,15 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
 			   }
     		   
     	   }break;
+    	   case 4:
+    	   {
+    		   if(loadQstMaskDialog != null)
+			   {
+    			   Toast.makeText(this, R.string.network_io_error, Toast.LENGTH_SHORT).show();
+				   loadQstMaskDialog.dismiss();
+				   return ;
+			   }
+    	   }
     	 }
      }
      
@@ -466,7 +495,23 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
 					{	
 						Message.obtain(uiHandler, 3, result).sendToTarget();
 					}
+					switch (error.getErrorCode()) {
+					  case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+						if (uiHandler != null)
+							Message.obtain(uiHandler, 4, result).sendToTarget();
+					   }
+						break;
+					}
 				}
+			}else{
+				ErrorMsg error = userScoreCommit.getError();
+				switch (error.getErrorCode()) {
+				  case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+					if (uiHandler != null)
+						Message.obtain(uiHandler, 4, result).sendToTarget();
+				}
+					break;
+			}
 			}
 		}
     }

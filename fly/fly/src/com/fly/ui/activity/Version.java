@@ -38,6 +38,7 @@ public class Version extends BaseActivity {
     	back.setOnClickListener(this);
     	View shareView = findViewById(R.id.share_img);
     	shareView.setVisibility(View.INVISIBLE);
+    	versionInfo.setText(getString(R.string.about_us_info,versonInfo));
     	updateVersonInfo();
     }
     

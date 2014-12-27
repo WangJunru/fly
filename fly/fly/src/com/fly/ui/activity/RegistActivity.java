@@ -20,6 +20,8 @@ import com.fly.sdk.User;
 import com.fly.sdk.job.UserRegist;
 import com.fly.sdk.threading.FlyTaskManager;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
+import com.fly.ui.dialog.LoadDialog;
+import com.fly.util.Tools;
 
 public class RegistActivity extends BaseActivity implements OnClickListener {
 
@@ -29,7 +31,8 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 
 	private boolean isPropAgree;
 	private UserRegist registTask;
-
+    
+	private LoadDialog loadDiag ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -76,8 +79,10 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 		}
 			break;
 		case R.id.regist_bt: {
-			String userName = userNameEd.getText().toString(), email = emailEd
-					.getText().toString(), passwd = passwdEd.getText()
+			String userName = userNameEd.getText().toString(), 
+					email = emailEd
+					.getText().toString(),
+					passwd = passwdEd.getText()
 					.toString();
 
 			if (userName.length() < 6) {
@@ -85,16 +90,13 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 						Toast.LENGTH_SHORT).show();
 				return;
 			}
-			// String pattern1 =
-			// "^([a-z0-9A-Z]+[-|//.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?//.)+[a-zA-Z]{2,}$";
-			// Pattern pattern = Pattern.compile(pattern1);
-			// Matcher mat = pattern.matcher(email);
-			// if(!mat.find())
-			// {
-			// Toast.makeText(this, R.string.email_illegal,
-			// Toast.LENGTH_SHORT).show();
-			// return ;
-			// }
+			
+			 if(!Tools.isEmail(email))
+			 {
+				 Toast.makeText(this, R.string.email_illegal,
+				 Toast.LENGTH_SHORT).show();
+				 return ;
+			 }
 			if (passwd.length() < 6) {
 				Toast.makeText(this, R.string.passwd_too_short,
 						Toast.LENGTH_SHORT).show();
@@ -103,8 +105,13 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 
 			if (taskManager != null) {
 				registTask = new UserRegist(userName, email, passwd);
+				loadDiag = new LoadDialog(this).builder().setCancelable(false)
+						.setCanceledOnTouchOutside(false)
+						.setMessage("正在提交数据...");
+				loadDiag.show();
 				taskManager
 						.commitJob(registTask, new UserRegistResultCapture());
+				
 			}
 		}
 			break;
@@ -116,18 +123,33 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (msg.what) {
 		case 0: {
+			if(loadDiag != null)
+			{
+				loadDiag.dismiss();
+				return ;
+			}
 			Toast.makeText(RegistActivity.this, R.string.regist_success,
 					Toast.LENGTH_SHORT).show();
 		}
 			break;
 		case 1: // user name or passwd wrong
 		{
+			if(loadDiag != null)
+			{
+				loadDiag.dismiss();
+				return ;
+			}
 			Toast.makeText(RegistActivity.this, R.string.name_exeist,
 					Toast.LENGTH_SHORT).show();
 		}
 			break;
 		case 2: // network error
 		{
+			if(loadDiag != null)
+			{
+				loadDiag.dismiss();
+				return ;
+			}
 			Toast.makeText(RegistActivity.this, R.string.network_io_error,
 					Toast.LENGTH_SHORT).show();
 		}
@@ -157,6 +179,17 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 						}
 							break;
 						}
+					}
+				}
+			}else
+			{
+				ErrorMsg error = registTask.getError();
+				if (registTask != null && error != null) {
+					switch (error.getErrorCode()) {
+				   	 case ErrorMsg.ERROR_NETWORK_IO_ERROR: {
+						uiHandler.obtainMessage(2).sendToTarget();
+					}
+						break;
 					}
 				}
 			}

@@ -236,6 +236,30 @@ public class SdkConfig {
 	 * action: get
 	 */
 	public static String API_URL_GET_NOTICE_DETAIL = "http://api.mfeiji.com/v1/notices/%1$d" ;
+	
+	
+	
+	/**
+	 * action: post
+     params: {
+          "cell": "123456"                # 手机号码
+        }
+	 */
+	public static String API_URL_SEND_CHECK_CODE = "http://api.mfeiji.com/v1/users/%1$d/send_code" ;
+	
+	
+	
+	/**
+	 * params: {
+        "user": {
+          "cell": cell,                 # 手机号码
+          "batch_code": batch_code,     # 批次码
+          "code": "123456"              # 验证码
+        }
+      }
+	 */
+	public static String API_URL_UPDATE_CELL = "http://api.mfeiji.com/v1/users/%1$d/update_cell" ;
+	
 			
 }
   

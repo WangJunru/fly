@@ -3,41 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg" >
-    
-    <include  
+
+    <include
         android:id="@+id/top_view"
-        layout="@layout/top"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    
-    <ScrollView android:id="@+id/mid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/top_view"
-        android:layout_gravity="center_horizontal"
-        android:gravity="center_horizontal"
+        layout="@layout/top" />
+
+    <com.fly.ui.view.ElasticScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_above="@+id/my_phb"
-        >
-        <LinearLayout  android:id="@+id/phb_con"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+        android:layout_below="@+id/top_view" >
+
+        <LinearLayout
+            android:id="@+id/phb_con"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:orientation="vertical">
-            
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" >
         </LinearLayout>
-    </ScrollView>
-    
-    <TextView android:id="@+id/my_phb"
+    </com.fly.ui.view.ElasticScrollView>
+
+    <TextView
+        android:id="@+id/my_phb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/pt_22"
-        android:text="@string/my_pm" 
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:paddingBottom="50dp"
-        />
+        android:text="@string/my_pm"
+        android:textColor="@color/white"
+        android:textSize="@dimen/pt_20" />
 
 </RelativeLayout>
