@@ -169,7 +169,7 @@ public class CitySelectDialog {
 			}
 		});
 		sfSelectView = (WheelView) view.findViewById(R.id.sf_select_view);
-		sfSelectView.setOffset(0);
+		sfSelectView.setOffset(2);
 		sfSelectView.setItems(Arrays.asList(this.sf));
 		sfSelectView.setOnWheelViewListener(new OnWheelViewListener(){
 			
