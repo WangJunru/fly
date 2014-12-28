@@ -45,6 +45,7 @@ import com.fly.ui.dialog.ActionSheetDialog;
 import com.fly.ui.dialog.ActionSheetDialog.OnSheetItemClickListener;
 import com.fly.ui.dialog.ActionSheetDialog.SheetItemColor;
 import com.fly.ui.dialog.AlertDialog;
+import com.fly.ui.dialog.CitySelectDialog;
 import com.fly.ui.dialog.LoadDialog;
 import com.fly.ui.view.UserInfoItemView;
 import com.fly.view.ui.utils.DataUtils;
@@ -296,6 +297,10 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 						}
 					});
 			dialog.show();
+		}break;
+		case R.id.user_erea_info:
+		{
+			new CitySelectDialog(attachedActivity).builder().show();
 		}break;
 		case R.id.user_best_cj:
 		{

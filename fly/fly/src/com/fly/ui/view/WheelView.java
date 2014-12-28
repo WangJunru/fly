@@ -33,7 +33,6 @@ public class WheelView extends ScrollView {
         ;
     }
 
-
     private Context context;
 //    private ScrollView scrollView;
 
