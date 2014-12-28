@@ -30,6 +30,7 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
 	private ArrayList<Score>  scores = new ArrayList<Score>();
 	private Job flyTask ;
 	private LoadDialog  dlg ;
+	private  LinearLayout.LayoutParams itemPara;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
@@ -86,16 +87,19 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
     			dlg.dismiss();
     			dlg = null ;
     		}
+    		 if(itemPara == null)
+ 		    {
+ 		    	itemPara =  new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 
+ 			    		LayoutParams.WRAP_CONTENT);
+ 				itemPara.topMargin = 40 ; 
+ 				itemPara.gravity = Gravity.CENTER_HORIZONTAL;
+ 		    }
     		for(Score score:this.scores)
     		{
     			ScorePaiHangItemView view = new ScorePaiHangItemView(this);
     			view.setUserPicClickListener(this);
-    		    LinearLayout.LayoutParams para =  new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 
-    		    		LayoutParams.WRAP_CONTENT);
-    		    para.topMargin = 40 ; 
-    		    para.gravity = Gravity.CENTER_HORIZONTAL;
     			view.setScore(score);
-    			phConItem.addView(view,para);
+    			phConItem.addView(view,itemPara);
     		}
     	}
     }

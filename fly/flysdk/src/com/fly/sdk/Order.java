@@ -15,6 +15,15 @@ public class Order implements Serializable{
 	private int id ;
 	private String date ;
 	private String productTitle ;
+	private String  abstractStr ;
+	public String getAbstractStr() {
+		return abstractStr;
+	}
+
+	public void setAbstractStr(String abstractStr) {
+		this.abstractStr = abstractStr;
+	}
+
 	private long productId ;
 	
 	public Order()
@@ -51,5 +60,26 @@ public class Order implements Serializable{
 
 	public void setProductId(long productId) {
 		this.productId = productId;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj == null)
+		{
+			return false ;
+		}
+		if(!(obj instanceof Order))
+		{
+			return false ;
+		}
+		
+		return  this.id == ((Order)obj).getId();
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return (int)this.id;
 	}
 }

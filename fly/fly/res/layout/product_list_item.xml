@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:orientation="vertical" 
         android:layout_marginLeft="6dp">
-
+ <!--  android:textColor="@color/product_title_text_color" -->
         <TextView
             android:id="@+id/product_title_tv"
             android:layout_width="match_parent"
@@ -33,7 +33,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textColor="@color/product_title_text_color"
+            android:textColor="@color/black"
             android:textSize="@dimen/pt_20" />
 
         <TextView

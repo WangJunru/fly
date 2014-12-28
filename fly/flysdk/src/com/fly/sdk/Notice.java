@@ -51,4 +51,25 @@ public class Notice implements Serializable{
 	public void setPageHtmlCode(String pageHtmlCode) {
 		this.pageHtmlCode = pageHtmlCode;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		if(obj == null)
+		{
+			return false ;
+		}
+		if(!(obj instanceof Notice))
+		{
+			return false ;
+		}
+		
+		return  this.id == ((Notice)obj).getId();
+	}
+	
+	@Override
+		public int hashCode() {
+			// TODO Auto-generated method stub
+			return (int)this.id;
+		}
 }

@@ -116,9 +116,9 @@ public class SlidesView extends FrameLayout implements OnTouchListener {
 						setCurrentDot(index);
 					}
 				}
-				pannerViewPager.postDelayed(this,2000);
+				pannerViewPager.postDelayed(this,5000);
 			}
-		},2000);
+		},5000);
 		
 		viewGuideDotsCon = (LinearLayout) this
 				.findViewById(R.id.slides_guide_dots);
@@ -148,6 +148,8 @@ public class SlidesView extends FrameLayout implements OnTouchListener {
 	{
 		this.spannerViews.clear();
 		viewPagerAdapter.notifyDataSetChanged();
+		guideDots.clear();
+		viewGuideDotsCon.removeAllViews();
 	}
 	
 	public void addSlide(SpannerView slide) {

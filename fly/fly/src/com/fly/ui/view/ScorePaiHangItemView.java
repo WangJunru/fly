@@ -23,6 +23,7 @@ public class ScorePaiHangItemView extends FrameLayout implements OnClickListener
 	private Context context ;
 	private Score score ;
 	private OnUserPicClickListener clickListener ;
+	private static int picWidth , picHeight ;
 	
 	public ScorePaiHangItemView(Context context) {
 		super(context);
@@ -58,15 +59,18 @@ public class ScorePaiHangItemView extends FrameLayout implements OnClickListener
 	public void setScore(Score score)
 	{
 		if(score == null)
-			return ;
-		
 		this.score = score ;
-		Options opt = new Options();
-		opt.inJustDecodeBounds = true ;
 		
-		BitmapFactory.decodeResource(getResources(),R.drawable.phb_default_uer_pic, opt);
+		if(picWidth == 0 ||  picHeight == 0 )
+		{
+			Options opt = new Options();
+			opt.inJustDecodeBounds = true ;	
+			BitmapFactory.decodeResource(getResources(),R.drawable.phb_default_uer_pic, opt);
+			picWidth = opt.outWidth;
+			picHeight = opt.outHeight ;
+		}
 		userPicView.setNetIamgeUrl(score.getUserUrlPic(), 
-				R.drawable.phb_default_uer_pic, opt.outWidth, opt.outHeight);
+				R.drawable.phb_default_uer_pic, picWidth, picHeight);
 		userNameTv.setText(score.getUserName());
 		userScoreTv.setText(context.getString(R.string.score_str, score.getScore()));
 		String[] times = score.getCreateTime().split("T");

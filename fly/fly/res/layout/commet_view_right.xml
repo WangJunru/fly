@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:background="@drawable/pinlun_item_0"
+     android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+    <com.fly.ui.view.RoundImageView
+        android:id="@+id/ph_user_picture_round"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/phb_user_bg"
+        android:layout_marginLeft="20dp"   
+        android:clickable="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerInside"
+        android:src="@drawable/phb_default_uer_pic"
+        imagecontrol:border_outside_color="@color/white"
+        imagecontrol:border_thickness="2dp" />
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ph_user_picture_round"
+        android:textColor="@color/white"
+        android:textSize="@dimen/pt_16"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="dddfddf" />
+    
+    <TextView
+        android:id="@+id/comment_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/ph_user_picture_round"
+        android:layout_below="@+id/user_name_tv"
+        android:textColor="@color/white"
+        android:singleLine="false"
+        android:textSize="@dimen/pt_17"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="dddfddf" />
+    
+    <TextView
+          android:layout_alignParentRight="true"
+        android:id="@+id/date_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/pt_16"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="dddfddf" />
+
+</RelativeLayout>

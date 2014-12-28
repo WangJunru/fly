@@ -10,15 +10,43 @@
         android:layout_height="wrap_content"
         layout="@layout/top" />
 
-    <com.fly.ui.view.BshElasticView
-        android:id="@+id/strech_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/white"
-        android:layout_below="@+id/top_view" >
-        
-    </com.fly.ui.view.BshElasticView>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/id_swipe_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_view" 
+         android:background="@color/white"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        >
 
-   
+        <ListView
+            android:id="@+id/strech_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="afterDescendants"
+             android:divider="@color/notice_split_color"
+            android:dividerHeight="1dp"
+            android:listSelector="@android:drawable/list_selector_background"
+            android:fadingEdge="none"
+            android:focusable="false"
+            android:scrollbars="none"
+            android:scrollingCache="false" />
+        
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_view"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:onClick="clickView"
+        android:text="@string/notice_empty"
+        android:textColor="@color/black"
+        android:textSize="@dimen/pt_20"
+        android:visibility="gone" />
 
 </RelativeLayout>

@@ -61,7 +61,7 @@
         android:layout_alignRight="@+id/ph_user_picture_round"
         android:textColor="@color/white"
         android:textSize="@dimen/pt_16"
-        
+        android:singleLine="false"
         android:gravity="center"
         android:text="dddfddf" />
 

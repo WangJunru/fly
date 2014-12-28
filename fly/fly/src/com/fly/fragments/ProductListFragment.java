@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fly.R;
 import com.fly.app.FlyApplication;
@@ -33,17 +36,19 @@ import com.fly.sdk.job.Job;
 import com.fly.sdk.threading.FlyTaskManager;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.ui.activity.FlyProductDetails;
+import com.fly.ui.dialog.LoadDialog;
 import com.fly.ui.view.NetImageView;
 import com.fly.ui.view.SlidesView;
 import com.fly.ui.view.SpannerView;
 import com.fly.util.DataCatcheTools;
 import com.fly.util.Debug;
 
-public class ProductListFragment extends BaseFramgment implements OnItemClickListener{
+public class ProductListFragment extends BaseFramgment implements OnItemClickListener, OnRefreshListener{
 	
 	
 	private View fView ;
     private FragmentActivity attachedActivity ;
+	private SwipeRefreshLayout mSwipeLayout;
 	
     private SlidesView    slidesView ;
 	private ListView      productsList ;
@@ -54,6 +59,9 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	private int spannViewWidth , spannViewHeight ;
 	private int productViewWidth ,productViewHeight ;
 	private Job taskJob ;
+	private  int  currentPage = 1 ;
+	
+	private LoadDialog loadDig ;
 	
 	public ProductListFragment(ArrayList<Product>  products,ArrayList<ProductBanner> panners)
 	{
@@ -88,7 +96,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		spliteData(data);
 	}
 	
-	private void spliteData(ArrayList<Product> data) {
+	private void spliteData(List<Product> data) {
 		if(data == null || data.isEmpty())
 			return ;
 		for(Product shObj : data)
@@ -191,7 +199,12 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     	
 //    	productSlides = (ImageSwitcher)rootView.findViewById(R.id.top_zhanshi_iv);
 //    	slideTitle    = (TextSwitcher)rootView.findViewById(R.id.first_news_info_tv);
-    	
+    	mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.id_swipe_ly);
+
+		mSwipeLayout.setOnRefreshListener(this);
+		mSwipeLayout.setColorScheme(R.color.holo_green_dark,R.color.holo_green_light,
+				R.color.holo_orange_light, R.color.holo_red_light);
+		
     	slidesView =    (SlidesView)rootView.findViewById(R.id.slide_view);
 //    	for(ProductBanner panner : productspanner)
 //    	{
@@ -263,34 +276,44 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		@Override
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
+			 if(loadDig != null)
+			 {
+				 loadDig.dismiss();
+			 }
+			 mSwipeLayout.setRefreshing(false);
 			 Object obj = msg.obj ;
 			 switch(msg.what)
 			 {
 			   case 1:
 			   {
-				   products.clear();
-	    		   productspanner.clear();
 	    		   if(obj != null)
 	    		   {
-	    		      ArrayList<Product> schools = (ArrayList<Product>)obj;
-	    		      spliteData(schools);
 	    		      updateViewData();
 	    		   }
 			   } break;
 			   case 2:
-			   {
-				   
-			   }
-				 break;
+					Toast.makeText(attachedActivity, R.string.request_timeout, Toast.LENGTH_SHORT)
+							.show();
+					break;
+				case 3: {
+					Toast.makeText(attachedActivity, R.string.network_io_error, Toast.LENGTH_SHORT)
+							.show();
+				}
+					break;
 			 }
 		}
 	};
     private void loadNetData()
 	{
-	    taskJob = new GetProductList(1);
+	    taskJob = new GetProductList(currentPage);
 		FlyTaskManager  taskMng = FlyApplication.getFlyTaskManager();
 		if(taskMng != null)
 		{
+			 if(loadDig == null)
+			 {
+			    loadDig = new LoadDialog(attachedActivity).builder().setMessage("ÕýÔÚ¼ÓÔØ..."); 
+			 }
+//			 loadDig.show();	 
 			taskMng.commitJob(taskJob, new ResultCallback() {					
 				@Override
 				public void notifyResult(Object result) {
@@ -304,6 +327,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		    			  if(size > 0)
 		    			  {
 		    				  obj = ((List)result).get(0);
+		    				  currentPage ++ ;
 		    			  }else
 		    			  {
 		    				  return ;
@@ -315,11 +339,20 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		    				  data.addAll(products);
 		    				  data.addAll(productspanner);
 		    				  DataCatcheTools.catcheProductData(attachedActivity, data);
-		    				  uiHandler.obtainMessage(1, result).sendToTarget();
+		    				  spliteData((List)result);
+		    				  uiHandler.obtainMessage(1).sendToTarget();
 		    			  }
 		    			}else if(result instanceof ErrorMsg)
 		    			{
-		    				 uiHandler.obtainMessage(2, result).sendToTarget();
+		    				ErrorMsg error = (ErrorMsg) result;
+							switch (error.getErrorCode()) {
+							case ErrorMsg.ERROR_EXECUTE_TIMEOUT:
+								uiHandler.sendEmptyMessage(2);
+								break;
+							case ErrorMsg.ERROR_NETWORK_IO_ERROR:
+								uiHandler.sendEmptyMessage(3);
+								break;
+							}
 		    			}
 		    		}
 				}
@@ -366,5 +399,10 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onDestroyView();
 		uiHandler = null ;
+	}
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		loadNetData();
 	}
 }

@@ -10,6 +10,13 @@
         android:layout_alignParentTop="true"
         layout="@layout/top" />
 
+     <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/id_swipe_ly"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_view" 
+         android:background="@color/white"
+        >
      <RelativeLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
@@ -35,6 +42,7 @@
         android:textSize="@dimen/pt_20"/>
         -->
 
+      
         <com.fly.ui.view.SlidesView
             android:id="@+id/slide_view"
             android:layout_width="match_parent"
@@ -58,5 +66,5 @@
       
         
     </RelativeLayout>
-
+ </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>
