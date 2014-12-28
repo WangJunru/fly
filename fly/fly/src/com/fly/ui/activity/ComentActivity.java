@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,6 +30,7 @@ import com.fly.sdk.job.CommentCreate;
 import com.fly.sdk.job.GetCommentLists;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.sdk.util.TextUtils;
+import com.fly.ui.dialog.LoadDialog;
 import com.fly.ui.view.CommentItemView;
 
 public class ComentActivity extends BaseActivity implements OnRefreshListener {
@@ -42,6 +45,7 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 	
 	private ArrayList<Comment> items = new ArrayList<Comment>();
 	private  LinearLayout.LayoutParams itemPara;
+	private LoadDialog  loadDialog ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,7 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 		setContentView(R.layout.pinglun_layouy);
 		initData();
 		initView();
+		loadNetComment();
 	}
 
 	private void initView() {
@@ -61,6 +66,8 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 		shareView.setVisibility(View.INVISIBLE);
 
 		sendBt = (Button) findViewById(R.id.send_bt);
+		sendBt.setOnClickListener(this);
+		
 		swiptRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.id_swipe_ly);
 		swiptRefreshLayout.setOnRefreshListener(this);
 		swiptRefreshLayout.setColorScheme(R.color.holo_green_dark,
@@ -68,6 +75,12 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 				R.color.holo_red_light);
 		commentContainer = (LinearLayout) findViewById(R.id.pl_con);
 		editText = (EditText) findViewById(R.id.edit_ev);
+		Options opt = new Options();
+		opt.inJustDecodeBounds = true ;	
+		BitmapFactory.decodeResource(getResources(),R.drawable.pinlun_et_bg_0, opt);
+		editText.setMaxWidth(opt.outWidth);
+		editText.setMinWidth(opt.outWidth);
+	
 	}
 
 	private void loadNetComment() {
@@ -75,15 +88,20 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 		
 			GetCommentLists	getCommet = new GetCommentLists(currnetPage,
 						(int) product.getId(), product instanceof School);
-			if (getCommet != null) {
-				taskManager.commitJob(getCommet, new ResultCallback() {
-
-					@Override
-					public void notifyResult(Object result) {
-						dealwithCommintResult(result);
-					}
-				});
+		 
+			if(loadDialog == null)
+			{
+				loadDialog = new LoadDialog(this).builder().setMessage("ÕýÔÚ¼ÓÔØ...");
 			}
+//			loadDialog.show();
+			taskManager.commitJob(getCommet, new ResultCallback() {
+
+				@Override
+				public void notifyResult(Object result) {
+					dealwithCommintResult(result);
+				}
+			});
+			
 		}
 	}
 
@@ -106,7 +124,13 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 					}
 				}
 				if (hasNew)
+				{
 					uiHandler.obtainMessage(0, newComs).sendToTarget();
+				}else
+				{
+					uiHandler.obtainMessage(0).sendToTarget();
+				}
+				
 
 			} else if (result instanceof ErrorMsg) {
 				ErrorMsg error = (ErrorMsg) result;
@@ -124,8 +148,13 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 	}
 	public void handleUIHandlerMessage(Message msg) {
 		swiptRefreshLayout.setRefreshing(false);
+		if(loadDialog != null)
+		{
+			loadDialog.dismiss();
+		}
 		switch (msg.what) {
 		case 0:
+			editText.setText("");
 			addCommentView((List<Comment>)msg.obj);
 			break;
 		case 1:
@@ -185,9 +214,9 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 		   }
 		   if(itemPara == null)
 		    {
-		    	itemPara =  new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, 
+		    	itemPara =  new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, 
 			    		LayoutParams.WRAP_CONTENT);
-				itemPara.topMargin = 40 ; 
+				itemPara.topMargin = 30 ; 
 				itemPara.gravity = Gravity.CENTER_HORIZONTAL;
 		    }
 		   CommentItemView view = null ;

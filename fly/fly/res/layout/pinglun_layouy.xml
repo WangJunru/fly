@@ -16,23 +16,23 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_view"
         android:layout_below="@+id/top_view"
-        android:background="@color/white"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp" >
+        android:background="@color/white" >
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-             >
+            android:fadingEdge="vertical" >
 
             <LinearLayout
                 android:id="@+id/pl_con"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="30dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical" >
+                android:isScrollContainer="true"
+                android:orientation="vertical"
+                android:paddingBottom="30dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" >
             </LinearLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -50,6 +50,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/pt_17"
+            android:singleLine="true"
             android:background="@drawable/pinlun_et_bg_0" />
 
         <Button

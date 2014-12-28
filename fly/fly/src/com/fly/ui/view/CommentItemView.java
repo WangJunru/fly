@@ -71,7 +71,7 @@ public class CommentItemView  extends FrameLayout {
     	
     	userName.setText(com.getUserName());
     	commTv.setText(com.getComment());
-    	String[] times = com.getCreateAt().split("T");
+    	String[] times = com.getDate().split("T");
 		if(times.length == 2)
 		{
 			dateTv.setText(times[0]);

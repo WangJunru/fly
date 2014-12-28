@@ -928,7 +928,7 @@ public class FlyJSonUtil {
 				    	}
 				    	if(jObj.has("date"))
 				    	{
-				    		com.setDate(jObj.getString(jObj.getString("date")));
+				    		com.setDate(jObj.getString("date"));
 				    	}
 				    	if(jObj.has("avatar"))
 				    	{

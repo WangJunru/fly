@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:imagecontrol="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" 
     android:background="@drawable/pinlun_item_0"
@@ -13,8 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/phb_user_bg"
-        android:layout_marginLeft="20dp"   
+        android:background="@drawable/phb_user_bg"  
         android:clickable="true"
         android:layout_centerVertical="true"
         android:contentDescription="@string/app_name"
@@ -31,6 +30,7 @@
         android:textSize="@dimen/pt_16"
         android:layout_toLeftOf="@+id/ph_user_picture_round"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:gravity="center"
         android:text="dddfddf" />
     
@@ -43,9 +43,9 @@
         android:textColor="@color/white"
         android:singleLine="false"
         android:textSize="@dimen/pt_17"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:gravity="center|right"
         android:text="dddfddf" />
     
     <TextView
@@ -55,7 +55,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/pt_16"
-        android:layout_marginRight="20dp"
         android:layout_marginTop="5dp"
         android:gravity="center|left"
         android:text="dddfddf" />
