@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.content.Context;
 import android.view.View;
 
 import com.fly.sdk.util.TextUtils;
@@ -47,11 +48,7 @@ public class Tools {
 	            }
 	        }
 	    }
-	  /**
-	     * 获取控件的高度，如果获取的高度为0，则重新计算尺寸后再返回高度
-	     * @param view
-	     * @return
-	     */
+
 	    public static int getViewMeasuredHeight(View view){
 //	        int height = view.getMeasuredHeight();
 //	        if(0 < height){
@@ -61,11 +58,7 @@ public class Tools {
 	        return view.getMeasuredHeight();
 	    }
 
-	    /**
-	     * 获取控件的宽度，如果获取的宽度为0，则重新计算尺寸后再返回宽度
-	     * @param view
-	     * @return
-	     */
+	   
 	    public static int getViewMeasuredWidth(View view){
 //	        int width = view.getMeasuredWidth();
 //	        if(0 < width){
@@ -75,10 +68,7 @@ public class Tools {
 	        return view.getMeasuredWidth();
 	    }
 	    
-	  /**
-	     * 测量控件的尺寸
-	     * @param view
-	     */
+	  
 	    public static void calcViewMeasure(View view){
 //	        int width = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
 //	        int height = View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED);
@@ -88,5 +78,8 @@ public class Tools {
 	        int expandSpec = View.MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, View.MeasureSpec.AT_MOST);
 	        view.measure(width, expandSpec);
 	    }
-	
+	    public static float pixelToDp(Context context, float val) {
+	        float density = context.getResources().getDisplayMetrics().density;
+	        return val * density;
+	    }
 }

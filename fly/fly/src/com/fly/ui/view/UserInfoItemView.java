@@ -78,6 +78,10 @@ public class UserInfoItemView extends LinearLayout {
 	{
 		valueTv.setText(text);
 	}
+	public String getValueText()
+	{
+		return valueTv.getText().toString();
+	}
 	public void setValueTypeFace(Typeface fontFace)
 	{
 		labelTv.setTypeface(fontFace);

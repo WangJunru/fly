@@ -52,11 +52,11 @@
     <string name="ks_jiaojuan">交卷</string>
     <string name="ks_djs">考试倒计时</string>
     <string name="ks_djs_time">02:00:00</string>
-    <string name="download_kt_tip">正在下载考题  ...\r\n考题下载后，考试立刻开始！</string>
+    <string name="download_kt_tip">正在下载考题  ...\n考题下载后，考试立刻开始！</string>
     <string name="no_kt">您选择的考题不存在！</string>
     <string name="jiao_queren">您确认要交卷吗？</string>
-    <string name="tuichu_ks">考试时间尚未结束,您还有未答题。\n请点击“退出”放弃本次考试，\n点击“提交”上传考试结果。</string>
-    <string name="tuichu_wc_ks">您已经答完所有题目，但考试时间尚未结束。\n请点击“退出”放弃本次考试，\n点击“提交”上传考试结果。</string>
+    <string name="tuichu_ks">考试时间尚未结束,您还有未答题。\n请点击“退出”放弃本次考试。</string>
+    <string name="tuichu_wc_ks">您已经答完所有题目，但考试时间尚未结束。\n请点击“退出”放弃本次考试。</string>
     <string name="jq_dw">您已经答完所有题目。确认要交卷吗？</string>
      <string name="jq_wdw">您尚有题目未答。确认要交卷吗？</string>
     <string name="quiz_timeout">考试时间已用完。、\r\n请点击"确认"交卷,\r\n点击"取消"表示您放弃这次考试!</string>

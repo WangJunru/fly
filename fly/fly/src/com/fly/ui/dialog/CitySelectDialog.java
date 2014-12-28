@@ -1,35 +1,40 @@
 package com.fly.ui.dialog;
 
 import java.util.Arrays;
+import java.util.List;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fly.R;
+import com.fly.ui.view.TosGallery;
 import com.fly.ui.view.WheelView;
-import com.fly.ui.view.WheelView.OnWheelViewListener;
+import com.fly.util.Tools;
 
 public class CitySelectDialog {
 
-	
-
-	private String[] sf = new String[] { "北京市	", "天津市", "河北省", "山西省", "内蒙",
-			"辽宁省", "吉林省", "黑龙江省", "上海市", "江苏省", "浙江省", "安徽省", "福建省", "江西省",
-			"山东省", "河南省", "湖北省", "湖南省", "广东省", "广西", "海南省", "重庆市", "四川省",
-			"贵州省", "云南省", "陕西省", "甘肃省", "青海省", "宁夏", "新疆" };
+	private String[] sf = new String[] { "直辖市", "特别行政区", "河北省", "山西省", "内蒙",
+			"辽宁省", "吉林省", "黑龙江省", "江苏省", "浙江省", "安徽省", "福建省", "江西省", "山东省",
+			"河南省", "湖北省", "湖南省", "广东省", "广西", "海南省", "四川省", "贵州省", "云南省",
+			"陕西省", "甘肃省", "青海省", "宁夏", "新疆" };
 	private String[][] city = new String[][] {
-			{ "北京市" },
-			{ "天津市" },
+			{ "北京市", "天津市", "上海市", "重庆市" },
+			{ "香港", "澳门" },
 			{ "石家庄市", "唐山市", "秦皇岛市", "邯郸市", "邢台市", "保定市", "张家口市", "承德市", "沧州市",
 					"廊坊市", "衡水市", "辛集市", "藁城市", "晋州市", "新乐市", "鹿泉市", "遵化市",
 					"丰南市", "迁安市", "武安市", "南宫市", "沙河市", "涿州市", "定州市", "安国市",
@@ -53,7 +58,6 @@ public class CitySelectDialog {
 					"七台河市", "牡丹江市", "黑河市", "阿城市", "双城市", "尚志市", "五常市", "讷河市",
 					"虎林市", "密山市", "铁力市", "同江市", "富锦市", "绥芬河市", "海林市", "宁安市",
 					"穆棱市", "北安市", "五大连池市", "绥化市", "安达市", "肇东市", "海伦市" },
-			{ "上海市" },
 			{ "南京市", "无锡市", "徐州市", "常州市", "苏州市", "南通市", "连云港市", "淮阴市", "盐城市",
 					"扬州市", "镇江市", "泰州市", "宿迁市", "江阴市", "宜兴市", "锡山市", "新沂市",
 					"邳州市", "溧阳市", "金坛市", "武进市", "常熟市", "张家港市", "昆山市", "吴江市",
@@ -107,7 +111,6 @@ public class CitySelectDialog {
 					"岑溪市", "东兴市", "桂平市", "北流市", "凭祥市", "合山市", "贺州市", "百色市",
 					"河池市", "宜州市" },
 			{ "海口市", "三亚市", "通什市", "琼海市", "儋州市", "琼山市", "文昌市", "万宁市", "东方市" },
-			{ "重庆市", "江津市", "合川市", "永川市", "南川市" },
 			{ "成都市", "自贡市", "攀枝花市", "泸州市", "德阳市", "绵阳市", "广元市", "遂宁市", "内江市",
 					"乐山市", "南充市", "宜宾市", "广安市", "达州市", "都江堰市", "彭州市", "邛崃市",
 					"崇州市", "广汉市", "什邡市", "绵竹市", "江油市", "峨眉山市", "阆中市", "华蓥市",
@@ -127,8 +130,8 @@ public class CitySelectDialog {
 					"乌苏市", "阿勒泰市" },
 
 	};
-	
-	
+
+	private String[] currentCitys = city[0];
 	private Context context;
 	private Button cancelBt;
 	private Button okBt;
@@ -140,7 +143,14 @@ public class CitySelectDialog {
 	private Display display;
 
 	private Dialog dialog;
-	private LinearLayout  wheelViewContainer ;
+	private LinearLayout wheelViewContainer;
+
+	private WheelTextAdapter sfWheelAdapter;
+	private WheelTextAdapter cityWheelAdapter;
+
+	private String sfValue;
+	private String cityValue;
+
 	public CitySelectDialog(Context context) {
 		this.context = context;
 		WindowManager windowManager = (WindowManager) context
@@ -155,9 +165,9 @@ public class CitySelectDialog {
 
 		// 设置Dialog最小宽度为屏幕宽度
 		view.setMinimumWidth(display.getWidth());
-		
-		wheelViewContainer = (LinearLayout)view.findViewById(R.id.mid_view);
-		wheelViewContainer.setMinimumHeight(display.getHeight()/2);
+
+		wheelViewContainer = (LinearLayout) view.findViewById(R.id.mid_view);
+		wheelViewContainer.setMinimumHeight(display.getHeight() / 3);
 
 		cancelBt = (Button) view.findViewById(R.id.cancel);
 		cancelBt.setOnClickListener(new OnClickListener() {
@@ -168,38 +178,60 @@ public class CitySelectDialog {
 				dialog.dismiss();
 			}
 		});
+		okBt = (Button) view.findViewById(R.id.ok);
+		title = (TextView)view.findViewById(R.id.title);
+		
 		sfSelectView = (WheelView) view.findViewById(R.id.sf_select_view);
-		sfSelectView.setOffset(2);
-		sfSelectView.setItems(Arrays.asList(this.sf));
-		sfSelectView.setOnWheelViewListener(new OnWheelViewListener(){
-			
-			public void onSelected(int selectedIndex, String item) {
-				
-	        }
-		});
-		
 		cySelectView = (WheelView) view.findViewById(R.id.city_select_view);
-//		cySelectView.setOffset(0);
-//		sfSelectView.setItems(Arrays.asList(this.city[0]));
-//		cySelectView.setOnWheelViewListener(new OnWheelViewListener(){
-//			
-//			public void onSelected(int selectedIndex, String item) {
-//				  
-//	        }
-//		});
+		sfSelectView.setScrollCycle(true);
+		cySelectView.setScrollCycle(true);
+
+		cySelectView.setOnEndFlingListener(mListener);
+		sfSelectView.setOnEndFlingListener(mListener);
+
+		cySelectView.setSoundEffectsEnabled(true);
+		sfSelectView.setSoundEffectsEnabled(true);
+
+		cityWheelAdapter = new WheelTextAdapter(context);
+		cityWheelAdapter.setData(Arrays.asList(currentCitys));
+
+		cySelectView.setAdapter(cityWheelAdapter);
+
+		sfWheelAdapter = new WheelTextAdapter(context);
+		sfWheelAdapter.setData(Arrays.asList(sf));
+		sfSelectView.setAdapter(sfWheelAdapter);
 		
+		sfValue = sf[0];
+		cityValue = currentCitys[0];
 
 		dialog = new Dialog(context, R.style.ActionSheetDialogStyle);
 		dialog.setContentView(view);
 		Window dialogWindow = dialog.getWindow();
-		dialogWindow.setGravity(Gravity.LEFT | Gravity.BOTTOM);
+		dialogWindow.setGravity(Gravity.BOTTOM);
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 		lp.x = 0;
 		lp.y = 0;
+		lp.width = display.getWidth();
 		dialogWindow.setAttributes(lp);
 
 		return this;
 	}
+
+	private TosGallery.OnEndFlingListener mListener = new TosGallery.OnEndFlingListener() {
+		@Override
+		public void onEndFling(TosGallery v) {
+			int pos = v.getSelectedItemPosition();
+
+			if (v == cySelectView) {
+				cityValue = currentCitys[pos];
+			} else if (v == sfSelectView) {
+				sfValue = sf[pos];
+				currentCitys = city[pos];
+				cityValue = currentCitys[0];
+				cityWheelAdapter.setData(Arrays.asList(currentCitys));
+			}
+		}
+	};
 
 	public CitySelectDialog setCancelable(boolean cancel) {
 		dialog.setCancelable(cancel);
@@ -229,6 +261,32 @@ public class CitySelectDialog {
 		return this;
 	}
 
+	public String getAreaString() {
+		return sfValue + "\t" + cityValue;
+	}
+
+	public CitySelectDialog setAreaString(String value) {
+		String[] ss = value.split("\t");
+		if(ss.length == 2)
+		{
+			sfValue = ss[0].trim();
+			cityValue = ss[1].trim();
+			
+			int sfIndex = Arrays.asList(sf).indexOf(sfValue);
+			if(sfIndex > -1)
+			{
+			   sfSelectView.setSelection(sfIndex);
+			   int cityIndex = Arrays.asList(city[sfIndex]).indexOf(cityValue);
+			   cityWheelAdapter.setData(Arrays.asList(city[sfIndex]));
+			   if(cityIndex > -1)
+			   {
+				   cySelectView.setSelection(cityIndex);
+			   }
+			}
+		}
+		return this;
+	}
+
 	public CitySelectDialog setNegativeButton(String text,
 			final OnClickListener listener) {
 		if ("".equals(text)) {
@@ -251,4 +309,65 @@ public class CitySelectDialog {
 		dialog.show();
 	}
 
+	private class WheelTextAdapter extends BaseAdapter {
+		List<String> mData = null;
+		int mWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+		int mHeight = 50;
+		Context mContext = null;
+
+		public WheelTextAdapter(Context context) {
+			mContext = context;
+			mHeight = (int) Tools.pixelToDp(context, mHeight);
+		}
+
+		public void setData(List<String> list) {
+			mData = list;
+			this.notifyDataSetChanged();
+		}
+
+		public void setItemSize(int width, int height) {
+			mWidth = width;
+			mHeight = (int) Tools.pixelToDp(mContext, height);
+		}
+
+		@Override
+		public int getCount() {
+			return (null != mData) ? mData.size() : 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return null;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return 0;
+		}
+
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			TextView textView = null;
+
+			if (null == convertView) {
+				convertView = new TextView(mContext);
+				convertView.setLayoutParams(new TosGallery.LayoutParams(mWidth,
+						mHeight));
+				textView = (TextView) convertView;
+				textView.setGravity(Gravity.CENTER);
+				textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+				textView.setTextColor(Color.BLACK);
+			}
+
+			if (null == textView) {
+				textView = (TextView) convertView;
+			}
+
+			String info = mData.get(position);
+			textView.setText(info);
+			// textView.setTextColor(info.mColor);
+
+			return convertView;
+		}
+	}
 }

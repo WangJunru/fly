@@ -300,7 +300,17 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 		}break;
 		case R.id.user_erea_info:
 		{
-			new CitySelectDialog(attachedActivity).builder().show();
+			final CitySelectDialog  cityDlg = new CitySelectDialog(attachedActivity).builder();
+			cityDlg.setPositiveButton("È·¶¨", new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					// TODO Auto-generated method stub
+					updateUserInfo("", "", "", cityDlg.getAreaString());
+				}
+			}).setAreaString(userAreaView.getValueText());
+			
+			cityDlg.show();
 		}break;
 		case R.id.user_best_cj:
 		{

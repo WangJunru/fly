@@ -38,12 +38,13 @@ public class BshElasticView extends LinearLayout
 	boolean isTopRecored;
 	boolean isBtmRecored = false;
 	int startY;
-	IRefresh irefresh;
-	RotateAnimation animation;
-	RotateAnimation reverseAnimation;
+	private IRefresh irefresh;
+	private RotateAnimation animation;
+	private RotateAnimation reverseAnimation;
 	int state = NORMAL;
 	boolean isBack;
 
+	
 	View rv;
 	RelativeLayout headerView, footerView, continer, main_continer;
 	ProgressBar hPro, fPro;
@@ -70,6 +71,11 @@ public class BshElasticView extends LinearLayout
 		}
 
 	};
+	
+	public void setIRefresh(IRefresh refresh)
+	{
+		this.irefresh = refresh;
+	}
 
 	public BshElasticView(Context context, AttributeSet attrs, int defStyle)
 	{

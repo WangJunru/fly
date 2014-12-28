@@ -417,12 +417,12 @@ public class QuizActivity extends BaseActivity  implements OnCheckedChangeListen
            {  	   
         	   AlertDialog alertDlg = new AlertDialog(this).builder().
         	   setMsg(getString(isFininishKt() == false? R.string.tuichu_ks:R.string.tuichu_wc_ks))
-           	  .setPositiveButton("提交", new OnClickListener() {
+           	  .setPositiveButton("继续答题", new OnClickListener() {
  				@Override
  				public void onClick(View v) {
  					// TODO Auto-generated method stub
- 					dealWithJiaoJuanJob();
-   					showTaskDoingDialog(R.string.commit_quiz_dlg_info);
+// 					dealWithJiaoJuanJob();
+//   					showTaskDoingDialog(R.string.commit_quiz_dlg_info);
  				}
    			}).setNegativeButton("退出", new OnClickListener() {
  				@Override
