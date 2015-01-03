@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fly.R;
 import com.fly.fragments.CheckQuizItemResult;
@@ -88,6 +89,7 @@ public class ResultActivity extends BaseActivity{
     		  FragmentTransaction   ftr = fragmentManager.beginTransaction();
   			  CheckQuizResult  page = new CheckQuizResult(this.questions);
   			  ftr.replace(R.id.total_view, page);
+  			  ftr.addToBackStack(null);
   			  ftr.commit();
     	  }
     		break;
@@ -99,4 +101,20 @@ public class ResultActivity extends BaseActivity{
     		break;
     	}
     }
+    
+    @Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if(fragmentManager != null)
+		{
+			fragmentManager.popBackStack();
+		    int   entryCount = fragmentManager.getBackStackEntryCount();
+		    if(entryCount == 0)
+		    {	
+		      this.finish();
+		    }
+		}
+	}
+    
+    
 } 

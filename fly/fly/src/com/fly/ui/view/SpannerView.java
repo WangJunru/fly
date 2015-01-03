@@ -1,38 +1,45 @@
 package com.fly.ui.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.MeasureSpec;
+import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.FrameLayout.LayoutParams;
 
 import com.fly.R;
+import com.fly.sdk.FlyProduct;
 import com.fly.sdk.util.TextUtils;
+import com.fly.ui.activity.FlyProductDetails;
 import com.fly.util.Debug;
 
-public class SpannerView extends RelativeLayout {
+public class SpannerView extends RelativeLayout implements OnClickListener{
 
 	private NetImageView img;
 	private TextView title;
+	
+	private Context context ;
 
 	public SpannerView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
+		this.context = context ;
 		initView();
 	}
 
 	public SpannerView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
+		this.context = context ;
 		initView();
 	}
 
 	public SpannerView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		// TODO Auto-generated constructor stub
+		this.context = context ;
 		initView();
 	}
 
@@ -50,6 +57,7 @@ public class SpannerView extends RelativeLayout {
 			}
 		});
 		title = (TextView) this.findViewById(R.id.panner_info_tv);
+		setOnClickListener(this);
 	}
 
 	public void setTitleAndImageUrl(String title, String url, int defaultWidth,
@@ -131,6 +139,20 @@ public class SpannerView extends RelativeLayout {
 			break;
 		}
 		return result;
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		Object   flyObj = v.getTag();
+		if(flyObj != null && flyObj instanceof FlyProduct)
+		{
+			FlyProduct flyProduct = (FlyProduct)flyObj;
+			Intent  intent = new Intent(getContext(),FlyProductDetails.class);
+			intent.putExtra("product", flyProduct);
+			context.startActivity(intent);
+		}
+		
 	}
 
 }

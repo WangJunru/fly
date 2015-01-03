@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.sdk.ErrorMsg;
+import com.fly.sdk.FlyProduct;
 import com.fly.sdk.Product;
 import com.fly.sdk.School;
 import com.fly.sdk.SchoolPanner;
@@ -80,11 +81,6 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 		super.onAttach(activity);
 		attachedActivity = (FragmentActivity)activity;	
 		loadLocalData();
-		int size = products.size() + productspanner.size();
-		if(size < 10)
-		{
-		   loadNetData();
-		}
 	}
 	
 	private void loadLocalData()
@@ -133,6 +129,8 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.slidesView.onResume();
+		
+		loadNetData();
 		updateViewData();
 	}
 	
@@ -299,7 +297,7 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 		@Override
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
-			 mSwipeLayout.setRefreshing(false);
+			
 			 if(loadDig != null)
 			 {
 				 loadDig.dismiss();
@@ -310,20 +308,25 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 			 {
 			   case 0:
 			   {
-	    		   if(obj != null)
+//	    		   if(obj != null)
 	    		   {  
 	    		      updateViewData();
+	    		      mSwipeLayout.setRefreshing(false);
 	    		   }
 			   } break;
 			   case 2:
 					Toast.makeText(attachedActivity, R.string.request_timeout, Toast.LENGTH_SHORT)
 							.show();
+					 mSwipeLayout.setRefreshing(false);
 					break;
 				case 3: {
 					Toast.makeText(attachedActivity, R.string.network_io_error, Toast.LENGTH_SHORT)
 							.show();
+					 mSwipeLayout.setRefreshing(false);
 				}
 					break;
+				default:
+					mSwipeLayout.setRefreshing(false);
 			 }
 		}
 	};
@@ -338,6 +341,7 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 			 {
 			    loadDig = new LoadDialog(attachedActivity).builder().setMessage("ÕýÔÚ¼ÓÔØ..."); 
 			 }
+			 mSwipeLayout.setRefreshing(true);
 //			 loadDig.show();	
 			taskMng.commitJob(taskJob, new ResultCallback() {					
 				@Override
@@ -391,11 +395,28 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 			for(SchoolPanner panner : productspanner)
 	    	{
 	    		SpannerView sView = new SpannerView(getActivity());
+	    		FlyProduct slidesPro  = getSlideSchoolProduct(panner);
+	    		if(slidesPro != null)
+	    		{
+	    			sView.setTag(slidesPro);
+	    		}
 	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
 	    		slidesView.addSlide(sView);
 	    	}
 			((BaseAdapter)productsList.getAdapter()).notifyDataSetChanged();
 		}
+	}
+	
+	private FlyProduct  getSlideSchoolProduct(SchoolPanner  banner)
+	{
+		if(banner == null)
+			return null;
+		for(FlyProduct pro:products)
+		{
+			if(pro.getId() == banner.getId())
+				return pro ;
+		}
+		return null ;
 	}
 	
 	public void clickView(View v)

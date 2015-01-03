@@ -30,6 +30,7 @@ public class CommentCreate extends Job {
 		this.userEmail = userEmail ;
 		this.userToken = userToken ;
 		this.comment = comment ;
+		this.isSchool = isSchool ;
 	}
 
 	@Override

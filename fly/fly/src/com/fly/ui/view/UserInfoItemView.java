@@ -8,12 +8,13 @@ import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fly.R;
 
-public class UserInfoItemView extends LinearLayout {
+public class UserInfoItemView extends FrameLayout {
 
 	private TextView labelTv ;
 	private TextView  valueTv ;
@@ -66,8 +67,8 @@ public class UserInfoItemView extends LinearLayout {
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		// TODO Auto-generated method stub
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),viewHeight);
-		this.requestLayout();
+//		setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec),MeasureSpec.getSize(heightMeasureSpec));
+//		this.requestLayout();
 	} 
 	
 	public void  setValueText(int resID)

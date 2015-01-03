@@ -93,6 +93,7 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 			{
 				loadDialog = new LoadDialog(this).builder().setMessage("е§дкМгди...");
 			}
+			swiptRefreshLayout.setRefreshing(true);
 //			loadDialog.show();
 			taskManager.commitJob(getCommet, new ResultCallback() {
 

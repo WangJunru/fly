@@ -16,6 +16,8 @@ import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.sdk.ErrorMsg;
+import com.fly.sdk.FlyProduct;
 import com.fly.sdk.Product;
 import com.fly.sdk.ProductBanner;
 import com.fly.sdk.School;
@@ -43,7 +46,7 @@ import com.fly.ui.view.SpannerView;
 import com.fly.util.DataCatcheTools;
 import com.fly.util.Debug;
 
-public class ProductListFragment extends BaseFramgment implements OnItemClickListener, OnRefreshListener{
+public class ProductListFragment extends BaseFramgment implements OnItemClickListener, OnRefreshListener, OnScrollListener{
 	
 	
 	private View fView ;
@@ -82,11 +85,6 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		super.onAttach(activity);
 		attachedActivity = (FragmentActivity)activity;
 		loadLocalData();
-		int size = products.size() + productspanner.size();
-		if(size < 10)
-		{
-		   loadNetData();
-		}
 	}
 	private void loadLocalData()
 	{
@@ -130,6 +128,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		// TODO Auto-generated method stub
 		super.onResume();
 		this.slidesView.onResume();
+		loadNetData();
 		updateViewData();
 	}
 	@Override
@@ -215,6 +214,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     	
     	//    	slideTitle.setText(getText(R.string.product_default_info));
     	productsList  = (ListView)rootView.findViewById(R.id.school_lists_infos);
+    	productsList.setOnScrollListener(this);
     	productsList.setOnItemClickListener(this);
     	productsList.setAdapter(new BaseAdapter() {
 			
@@ -280,26 +280,30 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 			 {
 				 loadDig.dismiss();
 			 }
-			 mSwipeLayout.setRefreshing(false);
 			 Object obj = msg.obj ;
 			 switch(msg.what)
 			 {
 			   case 1:
 			   {
-	    		   if(obj != null)
+//	    		   if(obj != null)
 	    		   {
 	    		      updateViewData();
+	    		      mSwipeLayout.setRefreshing(false);
 	    		   }
 			   } break;
 			   case 2:
 					Toast.makeText(attachedActivity, R.string.request_timeout, Toast.LENGTH_SHORT)
 							.show();
+					mSwipeLayout.setRefreshing(false);
 					break;
 				case 3: {
 					Toast.makeText(attachedActivity, R.string.network_io_error, Toast.LENGTH_SHORT)
 							.show();
+					mSwipeLayout.setRefreshing(false);
 				}
 					break;
+				default:
+					mSwipeLayout.setRefreshing(false);
 			 }
 		}
 	};
@@ -313,6 +317,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 			 {
 			    loadDig = new LoadDialog(attachedActivity).builder().setMessage("ÕýÔÚ¼ÓÔØ..."); 
 			 }
+			 mSwipeLayout.setRefreshing(true);
 //			 loadDig.show();	 
 			taskMng.commitJob(taskJob, new ResultCallback() {					
 				@Override
@@ -369,6 +374,11 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 			for(ProductBanner panner : productspanner)
 	    	{
 	    		SpannerView sView = new SpannerView(getActivity());
+	    		FlyProduct slidesPro  = getSlideProduct(panner);
+	    		if(slidesPro != null)
+	    		{
+	    			sView.setTag(slidesPro);
+	    		}
 	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
 	    		slidesView.addSlide(sView);
 	    	}
@@ -376,6 +386,17 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		}
 	}
     
+	private FlyProduct  getSlideProduct(ProductBanner  banner)
+	{
+		if(banner == null)
+			return null;
+		for(FlyProduct pro:products)
+		{
+			if(pro.getId() == banner.getId())
+				return pro ;
+		}
+		return null ;
+	}
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
@@ -404,5 +425,16 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	public void onRefresh() {
 		// TODO Auto-generated method stub
 		loadNetData();
+	}
+	@Override
+	public void onScroll(AbsListView view, int firstVisibleItem,
+			int visibleItemCount, int totalItemCount) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onScrollStateChanged(AbsListView view, int scrollState) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -307,7 +307,7 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					updateUserInfo("", "", "", cityDlg.getAreaString());
-				}
+				} 
 			}).setAreaString(userAreaView.getValueText());
 			
 			cityDlg.show();
@@ -328,6 +328,7 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 		    FragmentTransaction   ftr = attachedActivity.getSupportFragmentManager().beginTransaction();
 	    	BindPhoneBumberFragment  bind = new BindPhoneBumberFragment();
 		    ftr.replace(R.id.main_content, bind);
+		    ftr.addToBackStack(null);
 		    ftr.commit();
 		} break;
 		case R.id.user_safe_info:// ÷ÿ–¬…Ë÷√√‹¬Î
@@ -335,6 +336,7 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 			 FragmentTransaction   ftr = attachedActivity.getSupportFragmentManager().beginTransaction();
 	    	 ChangePasswd  change = new ChangePasswd();
 		     ftr.replace(R.id.main_content, change);
+		     ftr.addToBackStack(null);
 		     ftr.commit();
 		}
 			break;

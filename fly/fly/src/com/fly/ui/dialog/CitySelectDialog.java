@@ -276,12 +276,23 @@ public class CitySelectDialog {
 			if(sfIndex > -1)
 			{
 			   sfSelectView.setSelection(sfIndex);
+			   sfValue =sf[sfIndex].trim();
 			   int cityIndex = Arrays.asList(city[sfIndex]).indexOf(cityValue);
 			   cityWheelAdapter.setData(Arrays.asList(city[sfIndex]));
 			   if(cityIndex > -1)
 			   {
 				   cySelectView.setSelection(cityIndex);
+				   cityValue = city[sfIndex][cityIndex].trim();
+			   }else
+			   {
+				   cityValue =  city[sfIndex][0].trim();
 			   }
+			   currentCitys = city[sfIndex] ;
+			}else
+			{
+				 sfValue = ss[0].trim();
+				 cityValue = city[0][0].trim();
+				 currentCitys = city[0] ;
 			}
 		}
 		return this;

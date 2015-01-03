@@ -46,6 +46,8 @@ public class NoticeActivity extends BaseActivity implements OnRefreshListener, O
 
 		initView();
 
+		mSwipeLayout.setRefreshing(true);
+		
 		loadNotice("");
 	}
 

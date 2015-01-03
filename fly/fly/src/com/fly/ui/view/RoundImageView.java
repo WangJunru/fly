@@ -116,7 +116,7 @@ public class RoundImageView extends NetImageView{
 	        }  
 	        Bitmap roundBitmap = getCroppedRoundBitmap(bitmap, radius);  
 	        
-	        Debug.log.i("pic", "width="+roundBitmap.getWidth()+"height"+ roundBitmap.getHeight());
+//	        Debug.log.i("pic", "width="+roundBitmap.getWidth()+"height"+ roundBitmap.getHeight());
 	        
 	        canvas.drawBitmap(roundBitmap, defaultWidth / 2 - radius, defaultHeight  
 	                / 2 - radius, null);  

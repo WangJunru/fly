@@ -44,6 +44,7 @@ public class OrderActivity extends BaseActivity implements OnRefreshListener, On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notice_layout);
 		initView();
+		mSwipeLayout.setRefreshing(true);
 		loadOrder();
 	}
 
@@ -174,6 +175,7 @@ public class OrderActivity extends BaseActivity implements OnRefreshListener, On
 			loadDialog = DialogUtils.showLoadDlg(this, "正在请求数据...");
 		} else {
 			loadDialog.show();
+			emptyView.setVisibility(View.GONE);
 		}
 		taskManager.commitJob(getOrder, new ResultCallback() {
 

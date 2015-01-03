@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v4.widget.SwipeRefreshLayout.OnRefreshListener;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +21,9 @@ import com.fly.sdk.FlyProduct;
 import com.fly.sdk.Notice;
 import com.fly.sdk.Order;
 import com.fly.sdk.Product;
+import com.fly.sdk.ProductBanner;
 import com.fly.sdk.School;
+import com.fly.sdk.SchoolPanner;
 import com.fly.sdk.SdkConfig;
 import com.fly.sdk.job.GetNoticeDetail;
 import com.fly.sdk.job.GetProductDetails;
@@ -42,6 +47,8 @@ public class FlyProductDetails extends BaseActivity {
     private Object product ;
     private Job    flyTask ;
     private LoadDialog dialog ;
+    private SwipeRefreshLayout swiptLayout ;
+    
       @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
@@ -65,9 +72,33 @@ public class FlyProductDetails extends BaseActivity {
     	View sharedView = findViewById(R.id.share_img);
     	sharedView.setOnClickListener(this);
 //    	title = (TextView)findViewById(R.id.title);
+    	swiptLayout = (SwipeRefreshLayout)findViewById(R.id.mid_pan_swipt);
+    	swiptLayout.setColorScheme(R.color.holo_green_dark,R.color.holo_green_light,
+				R.color.holo_orange_light, R.color.holo_red_light);
+    	swiptLayout.setOnRefreshListener(new OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				// TODO Auto-generated method stub
+				swiptLayout.setRefreshing(false);
+			}
+		});
+    	swiptLayout.setRefreshing(true);
     	
     	mWebView       = (WebView)findViewById(R.id.content_web_view);
+    	mWebView.getSettings().setJavaScriptEnabled(true);
+    	mWebView.getSettings().setBuiltInZoomControls(true);
     	mWebView.getSettings().setDefaultTextEncodingName(SdkConfig.HTTP_ENCODING);
+    	mWebView.setWebViewClient(new WebViewClient()
+    	{
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				// TODO Auto-generated method stub
+				super.onPageFinished(view, url);
+				swiptLayout.setRefreshing(false);
+			}
+    		
+    	});
     	
     	if(product != null)
     	{
@@ -155,10 +186,10 @@ public class FlyProductDetails extends BaseActivity {
 			mWebView.loadData("<body>"+htmlCode+"</body>", "text/html; charset=UTF-8", null);
 		}else
 		{
-			if(product instanceof School)
+			if(product instanceof School || product instanceof SchoolPanner)
     		{
-				flyTask = new GetSchoolDetails(((School)product).getId());
-    		}else if(product instanceof Product)
+				flyTask = new GetSchoolDetails(((FlyProduct)product).getId());
+    		}else if(product instanceof Product || product instanceof ProductBanner)
     		{
     		   flyTask = new GetProductDetails(((Product)product).getId());
     		}else if(product instanceof Order)

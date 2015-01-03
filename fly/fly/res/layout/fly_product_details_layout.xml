@@ -11,23 +11,22 @@
         android:layout_alignParentTop="true"
         layout="@layout/top_details" />
 
-    <FrameLayout
-        android:id="@+id/mid_con"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/mid_pan_swipt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bootom_view"
         android:layout_below="@+id/top_view"
         android:background="@color/white"
-        android:paddingTop="5dp"
         android:paddingLeft="0dp"
-        android:paddingRight="0dp" >
+        android:paddingRight="0dp"
+        android:paddingTop="0dp" >
 
         <WebView
             android:id="@+id/content_web_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-        
-    </FrameLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/bootom_view"

@@ -31,6 +31,7 @@ public class MainActivity extends BaseActivity implements FourRoundClickListener
 	private ImageView minePages;
 	private ImageView kxPages;
 	private ImageView fxGarage;
+	private long      firstBackPressedTime ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -254,13 +255,18 @@ public class MainActivity extends BaseActivity implements FourRoundClickListener
 		    if(entryCount == 0)
 		    {
 		    	backKeyPressedCount ++ ;
-		    	if(backKeyPressedCount == 1)
+		    	if(backKeyPressedCount == 1  )
 		    	{
+		    		firstBackPressedTime = System.currentTimeMillis();
 		    	   Toast.makeText(this, R.string.pressed_again_to_quit, Toast.LENGTH_SHORT).show();
-		    	}else if(backKeyPressedCount ==2)
+		    	}else if(System.currentTimeMillis() - firstBackPressedTime < 2000)
 		    	{
+		    		backKeyPressedCount = 0 ;
 		    		this.finish();
-		    	}	
+		    	}else
+		    	{
+		    		backKeyPressedCount = 0 ;
+		    	}
 		    }else
 		    {
 		    	backKeyPressedCount = 0 ;

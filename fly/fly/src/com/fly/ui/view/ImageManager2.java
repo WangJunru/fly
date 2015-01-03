@@ -39,6 +39,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.util.LruCache;
+import android.text.style.BackgroundColorSpan;
 import android.widget.ImageView;
 
 import com.fly.app.FlyApplication;
@@ -117,7 +118,7 @@ public class ImageManager2 {
 		int memClass = ((ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
 		memClass = memClass > 32 ? 32 : memClass;
-		// 使用可用内存�?/8作为图片缓存
+		// 使用可用内存1/8作为图片缓存
 		final int cacheSize = 1024 * 1024 * memClass / 8;
 
 		mMemoryCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -449,7 +450,7 @@ public class ImageManager2 {
 								}
 
 								if (bitmap != null && url != null) {
-									// 写入SD�?								
+									// 写入SD卡及内存缓存					
 									if (imageRef.width != 0
 											&& imageRef.height != 0) {
 										mDiskCache.put(url + imageRef.width
@@ -511,7 +512,7 @@ public class ImageManager2 {
 						}
 						Bitmap bitmap = (Bitmap) msg.obj;
 
-						// 非同�?mageView
+						//非同一个ImageView 的
 						if (!(imageRef.url).equals((String) imageRef.imageView
 								.getTag())) {
 							break;
@@ -551,6 +552,11 @@ public class ImageManager2 {
 			td.startTransition(300);
 		} else {
 			imageView.setImageBitmap(bitmap);
+		}
+		Drawable draw =   imageView.getBackground();
+		if(draw != null)
+		{
+			imageView.setBackgroundDrawable(null);
 		}
 	}
 
