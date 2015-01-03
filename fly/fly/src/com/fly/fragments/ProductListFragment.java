@@ -172,6 +172,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     	this.spannViewWidth = opt.outWidth ;
     	this.spannViewHeight = opt.outHeight;
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
+    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
     	
     	opt.inJustDecodeBounds  = true ;
     	BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);

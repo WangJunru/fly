@@ -211,6 +211,7 @@
     <!-- 评论页面 -->
     <string name="send">发送</string>
     <string name="empty_comment">不能发送空的评论</string>
+    <string name="no_login_comment">只有登录用户才能评论</string>
     
     
      

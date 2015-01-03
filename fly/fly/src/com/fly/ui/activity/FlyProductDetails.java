@@ -41,6 +41,7 @@ public class FlyProductDetails extends BaseActivity {
 	private TextView title ;
 	
 	private View  bottomView ;
+	private View sharedView;
 	
 	private WebView  mWebView ;
 	
@@ -69,7 +70,7 @@ public class FlyProductDetails extends BaseActivity {
     	userActionTipTv.setOnClickListener(this);
     	View backView = findViewById(R.id.back_img);
     	backView.setOnClickListener(this);
-    	View sharedView = findViewById(R.id.share_img);
+        sharedView = findViewById(R.id.share_img);
     	sharedView.setOnClickListener(this);
 //    	title = (TextView)findViewById(R.id.title);
     	swiptLayout = (SwipeRefreshLayout)findViewById(R.id.mid_pan_swipt);
@@ -79,7 +80,7 @@ public class FlyProductDetails extends BaseActivity {
 			@Override
 			public void onRefresh() {
 				// TODO Auto-generated method stub
-				swiptLayout.setRefreshing(false);
+				loadFlyProductDetailsContent(product);
 			}
 		});
     	swiptLayout.setRefreshing(true);
@@ -99,9 +100,28 @@ public class FlyProductDetails extends BaseActivity {
 			}
     		
     	});
-    	
+    	updateView(product);
+    }
+    
+    private void updateView(Object product)
+    {
     	if(product != null)
     	{
+    		String htmlCode = null ;
+        	if(product instanceof School)
+    		{
+        		htmlCode  = ((School)product).getPageHtmlCode();
+    		}else if(product instanceof Product)
+    		{
+    			htmlCode  = ((Product)product).getPageHtmlCode();
+    		}else if(product instanceof Notice)
+    		{
+    			htmlCode  = ((Notice)product).getPageHtmlCode();
+    		}
+        	if(!TextUtils.isEmpty(htmlCode))
+    		{
+    			mWebView.loadData("<body>"+htmlCode+"</body>", "text/html; charset=UTF-8", null);
+    		}
     		if(product instanceof School)
     		{
     			userActionTipTv.setText(R.string.conn_us);
@@ -113,7 +133,7 @@ public class FlyProductDetails extends BaseActivity {
     			moneyNumberTv.setVisibility(View.VISIBLE);
     			DecimalFormat format =new DecimalFormat("0");
     			moneyNumberTv.setText(getString(R.string.money_number, 
-    					format.format(((Product) product).getPrice())));
+    					format.format(((Product) this.product).getPrice())));
     			comentCountsTv.setText(getString(R.string.coment_count,((FlyProduct)product).getCommentCount()));
     		}else if(product instanceof Order)
     		{
@@ -126,8 +146,6 @@ public class FlyProductDetails extends BaseActivity {
     			sharedView.setVisibility(View.GONE);
 //    			title.setText(((Notice)product).getTitle());
     		}
-    		
-    		loadFlyProductDetailsContent(product);
     	}
     }
     
@@ -169,46 +187,35 @@ public class FlyProductDetails extends BaseActivity {
     {
     	if(product == null)
     		return ;
-    	String htmlCode = null ;
-    	if(product instanceof School)
+		if(product instanceof School || product instanceof SchoolPanner)
 		{
-    		htmlCode  = ((School)product).getPageHtmlCode();
-		}else if(product instanceof Product)
+			flyTask = new GetSchoolDetails(((FlyProduct)product).getId());
+		}else if(product instanceof Product || product instanceof ProductBanner)
 		{
-			htmlCode  = ((Product)product).getPageHtmlCode();
+		   flyTask = new GetProductDetails(((Product)product).getId());
+		}else if(product instanceof Order)
+		{
+			flyTask = new GetProductDetails(((Order)product).getProductId());
 		}else if(product instanceof Notice)
 		{
-			htmlCode  = ((Notice)product).getPageHtmlCode();
+			flyTask = new GetNoticeDetail(((Notice)product).getId());
 		}
-    	
-		if(!TextUtils.isEmpty(htmlCode))
+		if(flyTask != null)
 		{
-			mWebView.loadData("<body>"+htmlCode+"</body>", "text/html; charset=UTF-8", null);
-		}else
-		{
-			if(product instanceof School || product instanceof SchoolPanner)
-    		{
-				flyTask = new GetSchoolDetails(((FlyProduct)product).getId());
-    		}else if(product instanceof Product || product instanceof ProductBanner)
-    		{
-    		   flyTask = new GetProductDetails(((Product)product).getId());
-    		}else if(product instanceof Order)
-    		{
-    			flyTask = new GetProductDetails(((Order)product).getProductId());
-    		}else if(product instanceof Notice)
-    		{
-    			flyTask = new GetNoticeDetail(((Notice)product).getId());
-    		}
-			if(flyTask != null)
-			{
-				dialog = new LoadDialog(this).builder().setCancelable(true)
-						.setCanceledOnTouchOutside(true).setMessage("正在加载内容...");
-				dialog.show();		
-				taskManager.commitJob(flyTask, new ProductDetailResultCapture());
-			}
+			dialog = new LoadDialog(this).builder().setCancelable(true)
+					.setCanceledOnTouchOutside(true).setMessage("正在加载内容...");
+//			dialog.show();		
+			taskManager.commitJob(flyTask, new ProductDetailResultCapture());
 		}
     }
     
+    
+    @Override
+    protected void onResume() {
+    	// TODO Auto-generated method stub
+    	super.onResume();
+    	loadFlyProductDetailsContent(product);
+    }
     
     private final class ProductDetailResultCapture implements ResultCallback {
 
@@ -243,6 +250,7 @@ public class FlyProductDetails extends BaseActivity {
     	// TODO Auto-generated method stub
         if(dialog != null)
     	     dialog.dismiss();
+        swiptLayout.setRefreshing(false);
     	switch(msg.what)
     	{
      	  case 0:
@@ -250,8 +258,8 @@ public class FlyProductDetails extends BaseActivity {
      		  Object obj = msg.obj;
      		  if(obj != null )
      		  {
-     			  product = obj;
-     			  loadFlyProductDetailsContent(product);
+//     			  product = obj;
+     			 updateView(obj);
      		  }
      	  }break;
      	 case 1:

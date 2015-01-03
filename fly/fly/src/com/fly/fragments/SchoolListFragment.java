@@ -181,7 +181,7 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
     	this.spannViewHeight = opt.outHeight;
     	
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
-    	
+    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
     	
     	Debug.log.i("spanner", this.spannViewWidth +":"+this.spannViewHeight);
     	opt.inJustDecodeBounds  = true ;

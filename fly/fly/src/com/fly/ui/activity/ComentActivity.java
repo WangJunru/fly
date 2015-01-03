@@ -193,18 +193,23 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
         	  return ;
           }
           User user = FlyApplication.getLoginUser();
-          if(user != null && product != null)
+          if(user != null)
           {
-             CommentCreate createCom = new CommentCreate((int) product.getId(), 
-            		 user.getEmail(), user.getUserToken(), text, product instanceof School) ;
-             taskManager.commitJob(createCom, new ResultCallback() {
-				@Override
-				public void notifyResult(Object result) {
-					// TODO Auto-generated method stub
-					dealwithCommintResult(result);
-				}
-			});
-					
+        	  if( product != null )
+        	  {
+	             CommentCreate createCom = new CommentCreate((int) product.getId(), 
+	            		 user.getEmail(), user.getUserToken(), text, product instanceof School) ;
+	             taskManager.commitJob(createCom, new ResultCallback() {
+					@Override
+					public void notifyResult(Object result) {
+						// TODO Auto-generated method stub
+						dealwithCommintResult(result);
+					}
+				});	
+        	  }
+          }else
+          {
+        	  Toast.makeText(this, R.string.no_login_comment, Toast.LENGTH_SHORT).show();
           }
 	}
 	   private void addCommentView(List<Comment> coms)
@@ -235,7 +240,8 @@ public class ComentActivity extends BaseActivity implements OnRefreshListener {
 				    view.setComment(com);
 				    comviewRight = true ;
 			   }
-			   commentContainer.addView(view, itemPara);
+			   view.setLayoutParams(itemPara);
+			   commentContainer.addView(view,0);
 		   }
 	   }
 
