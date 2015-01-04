@@ -61,7 +61,6 @@
      <string name="jq_wdw">您尚有题目未答。确认要交卷吗？</string>
     <string name="quiz_timeout">考试时间已用完。、\r\n请点击"确认"交卷,\r\n点击"取消"表示您放弃这次考试!</string>
     <string name="yes">确定</string>
-    <string name="cancel">取消</string>
     <string name="no_weizuo_ti">所有题目都已经做完</string>
     <string name="commit_quiz_dlg_info">正在提交考试结果  ...</string>
     <string name="commit_success">提交成功</string>

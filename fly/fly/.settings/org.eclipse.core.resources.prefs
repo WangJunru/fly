@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/cn/sharesdk/onekeyshare=UTF-8
+encoding//src/cn/sharesdk/onekeyshare/theme/classic=UTF-8
+encoding//src/cn/sharesdk/onekeyshare/theme/skyblue=UTF-8
 encoding//src/com/fly/ui/activity/PaiHangBangActivity.java=GBK
 encoding//src/com/fly/ui/view/BshElasticView.java=UTF-8
 encoding//src/com/fly/ui/view/ImageManager2.java=UTF-8
@@ -6,3 +9,4 @@ encoding//src/com/fly/ui/view/MD5.java=UTF-8
 encoding//src/com/fly/ui/view/WheelView.java=UTF-8
 encoding//src/com/fly/util/LogConfig.java=UTF-8
 encoding//src/com/fly/util/Tools.java=UTF-8
+encoding//src/com/fly/wxapi/WXEntryActivity.java=UTF-8
