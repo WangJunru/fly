@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -38,9 +40,17 @@ public class MainActivity extends BaseActivity implements FourRoundClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		fragmentManager = getSupportFragmentManager();
+		showDisplayMetricsInfo();
 		initView();
 		initBottomView();
 	}	
+	
+	private void showDisplayMetricsInfo()
+	{
+	   DisplayMetrics metrics = new DisplayMetrics();
+	   getWindowManager().getDefaultDisplay().getMetrics(metrics);
+	   Log.i("metrics",metrics.toString());
+	}
 	
 	private void initBottomView() {
 		firstPages = (ImageView) findViewById(R.id.sy);

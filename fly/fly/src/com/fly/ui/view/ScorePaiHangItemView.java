@@ -1,9 +1,12 @@
 package com.fly.ui.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +15,7 @@ import android.widget.TextView;
 
 import com.fly.R;
 import com.fly.sdk.Score;
+
 
 public class ScorePaiHangItemView extends FrameLayout implements OnClickListener {
 
@@ -64,11 +68,17 @@ public class ScorePaiHangItemView extends FrameLayout implements OnClickListener
 		if(picWidth == 0 ||  picHeight == 0 )
 		{
 			Options opt = new Options();
-			opt.inJustDecodeBounds = true ;	
-			BitmapFactory.decodeResource(getResources(),R.drawable.phb_default_uer_pic, opt);
-			picWidth = opt.outWidth;
-			picHeight = opt.outHeight ;
+			opt.inJustDecodeBounds = false ;	
+			opt.inDensity = DisplayMetrics.DENSITY_XHIGH;
+			Bitmap b = BitmapFactory.decodeResource(getResources(),R.drawable.phb_default_uer_pic, opt);
+//			picWidth = opt.outWidth;
+//			picHeight =opt.outHeight ;
+			
+			picWidth = b.getWidth();
+			picHeight = b.getHeight();
+			b.recycle();
 		}
+		Log.i("pic",picWidth + ":"+picHeight);
 		userPicView.setNetIamgeUrl(score.getUserUrlPic(), 
 				R.drawable.phb_default_uer_pic, picWidth, picHeight);
 		userNameTv.setText(score.getUserName());

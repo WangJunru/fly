@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
@@ -167,17 +168,20 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     private void initView(View rootView)
     {
     	Options opt = new Options();
-    	opt.inJustDecodeBounds  = true ;
-    	BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
-    	this.spannViewWidth = opt.outWidth ;
-    	this.spannViewHeight = opt.outHeight;
+    	opt.inJustDecodeBounds  = false ;
+    	Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
+    	this.spannViewWidth = b.getWidth() ;
+    	this.spannViewHeight = b.getHeight();
+    	b.recycle();
+    	
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
     	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
     	
-    	opt.inJustDecodeBounds  = true ;
-    	BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);
-    	this.productViewWidth  =  opt.outWidth;
-    	this.productViewHeight =  opt.outHeight;
+    	opt.inJustDecodeBounds  = false ;
+        b = BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);
+    	this.productViewWidth  =  b.getWidth();
+    	this.productViewHeight =  b.getHeight();
+    	b.recycle();
     	
     	Bundle bundle = getArguments();
     	boolean activity = bundle != null? bundle.getBoolean("new_activity"):false;
