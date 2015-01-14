@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.FlyProduct;
-import com.fly.sdk.Product;
 import com.fly.sdk.School;
 import com.fly.sdk.SchoolPanner;
 import com.fly.sdk.job.GetSchoolList;
@@ -175,10 +175,11 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
     private void initView(View rootView)
     {
     	Options opt = new Options();
-    	opt.inJustDecodeBounds  = true ;
-    	BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
-    	this.spannViewWidth = opt.outWidth ;
-    	this.spannViewHeight = opt.outHeight;
+    	opt.inJustDecodeBounds  = false ;
+    	Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.product_slide_0, opt);
+    	this.spannViewWidth = b.getWidth() ;
+    	this.spannViewHeight = b.getHeight();
+    	b.recycle();
     	
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
     	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
@@ -247,7 +248,7 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 				}
 				School product = products.get(position);
 				viewHolder.productIv.setNetIamgeUrl(product.getFirstImageUrl(),
-						R.drawable.product_default_image,productViewWidth,productViewHeight);
+						R.drawable.product_default_0,productViewWidth,productViewHeight);
 				viewHolder.productTitle.setText(product.getTitle());
 				viewHolder.productDetails.setText(product.getAbstractString());
 				return convertView;

@@ -248,7 +248,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 				}
 				Product product = products.get(position);
 				viewHolder.productIv.setNetIamgeUrl(product.getFirstImageUrl(),
-						R.drawable.product_default_image,
+						R.drawable.product_default_0,
 						productViewWidth,productViewHeight);
 				viewHolder.productTitle.setText(product.getTitle());
 				viewHolder.productDetails.setText(product.getAbstractString());

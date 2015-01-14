@@ -595,6 +595,11 @@ public class FlyJSonUtil {
 						product.setTel(jObj.getString("tel"));
 					}
 					
+					if(jObj.has("price"))
+					{
+						product.setPrice(jObj.getDouble("price"));
+					}
+					
 					if (jObj.has("title")) {
 						product.setTitle(jObj.getString("title"));
 					}
