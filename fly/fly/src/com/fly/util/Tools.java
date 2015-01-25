@@ -10,8 +10,13 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.fly.R;
+import com.fly.app.FlyApplication;
 import com.fly.sdk.util.TextUtils;
 
 public class Tools {
@@ -38,7 +43,7 @@ public class Tools {
 	}
 
 	public static Bitmap compressImage(Bitmap image, int maxKByte) {
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		image.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 		image.recycle();
@@ -51,7 +56,26 @@ public class Tools {
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);
 		return bitmap;
-		
+
+	}
+
+	public static Bitmap comp(Bitmap image, int newWidth, int newHeight) {
+
+		if (image == null)
+			return null;
+
+		float width = image.getWidth(), height = image.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = 0, scaleHeight = 0;
+
+		scaleWidth = (float) newWidth / width;
+		scaleHeight = (float) newHeight / height;
+
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap b = Bitmap.createBitmap(image, 0, 0, (int) width, (int) height,
+				matrix, false);
+		image.recycle();
+		return b;/* compressImage(b); */// 压缩好比例大小后再进行质量压缩
 	}
 
 	public static void closeIO(Closeable... closeables) {
@@ -105,5 +129,17 @@ public class Tools {
 	public static float pixelToDp(Context context, float val) {
 		float density = context.getResources().getDisplayMetrics().density;
 		return val * density;
+	}
+
+	public static Drawable getDefaultUserPic(Context context) {
+		Bitmap b = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.default_user_pic);
+		Bitmap b2 = BitmapFactory.decodeResource(context.getResources(),
+				R.drawable.app_icon);
+		Bitmap userPic = Tools.comp(b2, b.getWidth(), b.getHeight());
+		BitmapDrawable drawable = new BitmapDrawable(userPic);
+		b.recycle();
+		b2.recycle();
+		return drawable;
 	}
 }

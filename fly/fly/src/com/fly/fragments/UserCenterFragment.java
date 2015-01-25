@@ -48,6 +48,7 @@ import com.fly.ui.dialog.AlertDialog;
 import com.fly.ui.dialog.CitySelectDialog;
 import com.fly.ui.dialog.LoadDialog;
 import com.fly.ui.view.UserInfoItemView;
+import com.fly.util.Tools;
 import com.fly.view.ui.utils.DataUtils;
 
 public class UserCenterFragment extends BaseFramgment implements CropHandler{
@@ -180,6 +181,9 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 
 		if (userPic != null) {
 			userPicIv.setImageDrawable(userPic);
+		}else
+		{
+			 userPicIv.setImageDrawable(Tools.getDefaultUserPic(attachedActivity));
 		}
 	}
 	
@@ -459,23 +463,26 @@ public class UserCenterFragment extends BaseFramgment implements CropHandler{
 								user.setBestScore(before.getBestScore());
 								user.setRole(before.getRole());
 								FlyApplication.setLoginedUser(user);
-								URL urls;
+								URL urls; 
 								try {
-									urls = new URL(user.getUserPictureUri());
-
-									URLConnection urlConn = urls.openConnection();
-									Bitmap pic = BitmapFactory.decodeStream(urlConn
-											.getInputStream());
-									BitmapDrawable drawable = new BitmapDrawable(pic);
-									FlyApplication.setLogindUserPic(drawable);	
+									String url = user.getUserPictureUri();
+									Bitmap pic = null ;
+									if(url != null)
+									{
+										try{
+											urls = new URL(url);
+											URLConnection urlConn = urls.openConnection();
+										    pic = BitmapFactory.decodeStream(urlConn
+													.getInputStream());
+											BitmapDrawable drawable = new BitmapDrawable(pic);
+											FlyApplication.setLogindUserPic(drawable);	
+										}catch (Exception e) {
+											// TODO: handle exception
+											e.printStackTrace();
+										}
+									}
 									if (uiHandler != null)
 										uiHandler.obtainMessage(1).sendToTarget();
-								} catch (MalformedURLException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (IOException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
 								}catch (Exception e) {
 									// TODO: handle exception
 									e.printStackTrace();

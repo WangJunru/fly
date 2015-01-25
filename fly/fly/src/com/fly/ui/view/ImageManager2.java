@@ -1,7 +1,5 @@
 package com.fly.ui.view;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -36,7 +34,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.ThumbnailUtils;
-import android.graphics.Matrix;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
@@ -45,6 +42,7 @@ import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import com.fly.app.FlyApplication;
+import com.fly.util.Tools;
 
 /**
  * 图片加载�? * 
@@ -446,7 +444,7 @@ public class ImageManager2 {
 //													imageRef.width,
 //													imageRef.height,
 //													ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-									bitmap = comp(tBitmap,imageRef.width,
+									bitmap = Tools.comp(tBitmap,imageRef.width,
 											imageRef.height);
 								} else {
 									bitmap = tBitmap;
@@ -655,36 +653,7 @@ private static HttpClient createHttpClient() {
 	  }
    }
    
-   private Bitmap comp(Bitmap image,int newWidth,int newHeight) {  
-	      
-	   if(image == null)
-		   return null;
-	   
-	    float width = image.getWidth(), height = image.getHeight();
-	    Matrix matrix = new Matrix();
-	    float scaleWidth = 0 ,scaleHeight = 0;
-
-    	scaleWidth  = (float)newWidth/width;
-    	scaleHeight =  (float)newHeight/height;
-
-	    matrix.postScale(scaleWidth, scaleHeight);
-	    Bitmap b = Bitmap.createBitmap(image, 0, 0, (int)width,(int)height,matrix,false);
-	    image.recycle();
-	    return b ;/*compressImage(b);*///压缩好比例大小后再进行质量压缩  
-	}  
+  
    
-   private Bitmap compressImage(Bitmap image) {  
-	   
-       ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-       image.compress(Bitmap.CompressFormat.PNG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中  
-       int options = 100;  
-       while ( baos.toByteArray().length / 1024>100) {  //循环判断如果压缩后图片是否大于100kb,大于继续压缩         
-           baos.reset();//重置baos即清空baos  
-           image.compress(Bitmap.CompressFormat.PNG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中  
-           options -= 10;//每次都减少10  
-       }  
-       ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中  
-       Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片  
-       return bitmap;  
-   }  
+ 
 }

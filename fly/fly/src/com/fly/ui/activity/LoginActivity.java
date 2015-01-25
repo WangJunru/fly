@@ -31,6 +31,7 @@ import com.fly.sdk.User;
 import com.fly.sdk.job.UserLogin;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.util.Debug.log;
+import com.fly.util.Tools;
 import com.fly.view.ui.utils.DataUtils;
 
 public class LoginActivity extends BaseActivity {
@@ -88,6 +89,9 @@ public class LoginActivity extends BaseActivity {
 			if (obj != null && obj instanceof Bitmap) {
 				BitmapDrawable drawable = new BitmapDrawable((Bitmap) obj);
 				FlyApplication.setLogindUserPic(drawable);
+			}else
+			{
+				FlyApplication.setLogindUserPic(Tools.getDefaultUserPic(this));
 			}
 			if (loginMaskDialog != null) {
 				loginMaskDialog.dismiss();

@@ -99,7 +99,7 @@ public class FlyProductDetails extends BaseActivity {
 
 		mWebView = (WebView) findViewById(R.id.content_web_view);
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.getSettings().setBuiltInZoomControls(true);
+//		mWebView.getSettings().setBuiltInZoomControls(true);
 		mWebView.getSettings().setDefaultTextEncodingName(
 				SdkConfig.HTTP_ENCODING);
 		mWebView.setWebViewClient(new WebViewClient() {

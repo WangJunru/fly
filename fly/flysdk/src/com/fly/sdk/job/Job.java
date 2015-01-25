@@ -17,9 +17,9 @@ public abstract class Job implements Callable<Object> {
 	public Job(){
 		httpClent = new DefaultHttpClient();
 //		请求超时
-		httpClent.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 5000); 
+		httpClent.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 3000); 
 //		读取超时
-		httpClent.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 5000);
+		httpClent.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 3000);
 	}
 	@Override
 	public Object call() throws Exception {

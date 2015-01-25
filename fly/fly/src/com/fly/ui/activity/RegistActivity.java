@@ -17,6 +17,7 @@ import com.fly.sdk.ErrorMsg;
 import com.fly.sdk.User;
 import com.fly.sdk.job.UserRegist;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
+import com.fly.sdk.util.TextUtils;
 import com.fly.ui.dialog.LoadDialog;
 import com.fly.util.Tools;
 
@@ -76,13 +77,13 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 		}
 			break;
 		case R.id.regist_bt: {
-			String userName = userNameEd.getText().toString(), 
+			String userName = userNameEd.getText().toString().trim(), 
 					email = emailEd
 					.getText().toString(),
 					passwd = passwdEd.getText()
 					.toString();
 
-			if (userName.length() < 6) {
+			if (TextUtils.isEmpty(userName)) {
 				Toast.makeText(this, R.string.user_name_too_short,
 						Toast.LENGTH_SHORT).show();
 				return;
@@ -134,6 +135,7 @@ public class RegistActivity extends BaseActivity implements OnClickListener {
 			}
 			Toast.makeText(RegistActivity.this, R.string.regist_success,
 					Toast.LENGTH_SHORT).show();
+		    this.finish();
 		}
 			break;
 		case 1: // user name or passwd wrong

@@ -19,6 +19,7 @@ import com.fly.app.FlyApplication;
 import com.fly.sdk.User;
 import com.fly.ui.activity.LoginActivity;
 import com.fly.ui.activity.QuizMainActivity;
+import com.fly.util.Tools;
 
 public class MainFragment extends BaseFramgment implements OnClickListener,OnGlobalLayoutListener{
 	
@@ -93,6 +94,9 @@ public class MainFragment extends BaseFramgment implements OnClickListener,OnGlo
     	if(user != null)
     	{
     		updateUserView(user, FlyApplication.getLoginedUserPic());
+    	}else
+    	{
+    	    userPicIv.setImageDrawable(Tools.getDefaultUserPic(attachedActivity));
     	}
     }
     

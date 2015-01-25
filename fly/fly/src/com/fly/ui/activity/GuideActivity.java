@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -31,6 +30,7 @@ import com.fly.sdk.User;
 import com.fly.sdk.job.UserLogin;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.sdk.util.TextUtils;
+import com.fly.util.Tools;
 
 public class GuideActivity extends BaseActivity {
 
@@ -107,20 +107,29 @@ public class GuideActivity extends BaseActivity {
 						FlyApplication.setLoginedUser(user);
 						URL urls;
 						try {
-							urls = new URL(user.getUserPictureUri());
-
-							URLConnection urlConn = urls.openConnection();
-							Bitmap pic = BitmapFactory.decodeStream(urlConn
-									.getInputStream());
-							BitmapDrawable drawable = new BitmapDrawable(pic);
-							FlyApplication.setLogindUserPic(drawable);	
-						} catch (MalformedURLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}catch (Exception e) {
+							String url  =  user.getUserPictureUri();
+							Bitmap pic  = null ;
+							if(url != null)
+							{
+								try {
+									urls = new URL(url);
+									
+									URLConnection urlConn = urls.openConnection();
+								    pic = BitmapFactory.decodeStream(urlConn
+											.getInputStream());
+								} catch (Exception e) {
+									// TODO: handle exception
+								}
+					      	}
+							if(pic != null)
+							{
+							   BitmapDrawable drawable = new BitmapDrawable(pic);
+							   FlyApplication.setLogindUserPic(drawable);	
+							}else
+							{
+							   FlyApplication.setLogindUserPic(Tools.getDefaultUserPic(GuideActivity.this));	
+							}
+						} catch (Exception e) {
 							// TODO: handle exception
 							e.printStackTrace();
 						}

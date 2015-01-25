@@ -39,7 +39,7 @@ public class CellNumberUpdate extends Job {
 		List<BasicNameValuePair> param = new ArrayList<BasicNameValuePair>();
 		param.add(new BasicNameValuePair("user[cell]", cellNumber));
 		param.add(new BasicNameValuePair("user[batch_code]", batchCode));
-		param.add(new BasicNameValuePair("code", checkCode));
+		param.add(new BasicNameValuePair("user[code]", checkCode));
 		try {
 			UrlEncodedFormEntity entity = new UrlEncodedFormEntity(param,SdkConfig.HTTP_ENCODING);
 			put.setEntity(entity);
