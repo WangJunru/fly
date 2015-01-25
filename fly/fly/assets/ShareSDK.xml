@@ -99,7 +99,7 @@
         SortId="4"
         AppId="wxb47d71dd757001bd"
         AppSecret="85002a31330551d15ef269f503d14f4d"
-        BypassApproval="false"
+        BypassApproval="true"
         Enable="true" />
     
     <WechatMoments
@@ -107,7 +107,7 @@
         SortId="5"
         AppId="wxb47d71dd757001bd"
         AppSecret="85002a31330551d15ef269f503d14f4d"
-        BypassApproval="false"
+        BypassApproval="true"
         Enable="true" />
         
 	<WechatFavorite
@@ -120,7 +120,7 @@
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 	<QQ
         Id="7"
-        SortId="7"
+        SortId="2"
         AppId="100371282"
         AppKey="aed9b0303e3ed1e27bae87c33761161d"
         ShareByAppClient="true"

@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import cn.sharesdk.framework.ShareSDK;
+
 import com.fly.R;
 import com.fly.app.FlyApplication;
 import com.fly.fragments.MainFragment;

@@ -3,6 +3,7 @@ package com.fly.ui.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.speech.tts.TextToSpeech.OnUtteranceCompletedListener;
@@ -12,8 +13,12 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
+
 import com.fly.R;
 import com.fly.app.FlyApplication;
+import com.fly.sdk.FlyProduct;
 import com.fly.sdk.Score;
 import com.fly.sdk.User;
 import com.fly.sdk.job.Job;
@@ -31,6 +36,7 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
 	private Job flyTask ;
 	private LoadDialog  dlg ;
 	private  LinearLayout.LayoutParams itemPara;
+	private  String userScoreStr ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	// TODO Auto-generated method stub
@@ -48,7 +54,8 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
     	User user =  FlyApplication.getLoginUser() ;
     	if(user != null)
     	{
-    	   myRankTv.setText(getString(R.string.my_pm, user.getRank()));
+    	   userScoreStr  = getString(R.string.my_pm, user.getRank());
+    	   myRankTv.setText(userScoreStr);
     	}
     	title.setText(R.string.phb_title);
     	View backView = findViewById(R.id.back_img);
@@ -124,13 +131,32 @@ public class PaiHangBangActivity extends BaseActivity implements OnUserPicClickL
 		}break;
 		case R.id.share_img:
 		{
-			
+			showShare();
 		}break;
 		default:
 			break;
 		}
     }
+    private void showShare() {
+		Context context = getBaseContext();
+		final OnekeyShare oks = new OnekeyShare();
+		oks.setTitle(getString(R.string.app_name));
+		oks.setTitleUrl("http://www.mfeiji.com/");
+	    oks.setText(userScoreStr);
 
+		oks.setViewToShare(phConItem);
+	 
+		oks.setUrl("http://www.mfeiji.com/");
+		oks.setSite(context.getString(R.string.app_name));
+		oks.setSiteUrl("http://www.mfeiji.com/");
+		oks.setSilent(true);
+		oks.setTheme(OnekeyShareTheme.CLASSIC);
+    	oks.setDialogMode();
+		// 为EditPage设置一个背景的View
+		oks.setEditPageBackground(phConItem);
+		oks.setInstallUrl("http://www.mfeiji.com/");
+		oks.show(context);
+	}
     @Override
     protected void onStop() {
     	// TODO Auto-generated method stub

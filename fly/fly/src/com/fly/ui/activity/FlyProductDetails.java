@@ -1,9 +1,18 @@
 package com.fly.ui.activity;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
@@ -14,8 +23,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
-import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.OnekeyShareTheme;
 
 import com.fly.R;
 import com.fly.sdk.ErrorMsg;
@@ -34,6 +43,7 @@ import com.fly.sdk.job.Job;
 import com.fly.sdk.threading.FlyTaskManager.ResultCallback;
 import com.fly.sdk.util.TextUtils;
 import com.fly.ui.dialog.LoadDialog;
+import com.fly.util.Tools;
 
 public class FlyProductDetails extends BaseActivity {
 
@@ -51,6 +61,7 @@ public class FlyProductDetails extends BaseActivity {
 	private Job flyTask;
 	private LoadDialog dialog;
 	private SwipeRefreshLayout swiptLayout;
+	private String localProducPictPath ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -143,48 +154,48 @@ public class FlyProductDetails extends BaseActivity {
 		}
 	}
 
-	private void showShare() {
-		ShareSDK.initSDK(this);
-		OnekeyShare oks = new OnekeyShare();
-		// 关闭sso授权
-		oks.disableSSOWhenAuthorize();
-
-		// 分享时Notification的图标和文字
-//		oks.setNotification(R.drawable.ic_launcher,
-//				getString(R.string.app_name));
-		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle(getString(R.string.app_name));
-		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+	private void showShare(boolean silent, String platform, boolean captureView) {
+		Context context = getBaseContext();
+		final OnekeyShare oks = new OnekeyShare();
+		oks.setTitle(((FlyProduct)product).getAbstractString());
 		oks.setTitleUrl("http://www.mfeiji.com/");
-		// text是分享文本，所有平台都需要这个字段
-		oks.setText(((FlyProduct)product).getAbstractString());
-		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-//		oks.setImagePath("/sdcard/test.jpg");// 确保SDcard下面存在此张图片
-		
-		oks.setImageUrl(((FlyProduct)product).getFirstImageUrl());
-		// url仅在微信（包括好友和朋友圈）中使用
+	    oks.setText(((FlyProduct)product).getAbstractString());
+		if (captureView) {
+			oks.setViewToShare(mWebView);
+		} else {
+//			oks.setImagePath(localProducPictPath);
+			
+			oks.setImageUrl(((FlyProduct)product).getFirstImageUrl());
+		}
 		oks.setUrl("http://www.mfeiji.com/");
-		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-//		oks.setComment("我是测试评论文本");
-		// site是分享此内容的网站名称，仅在QQ空间使用
-		oks.setSite(getString(R.string.app_name));
-		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
+//		oks.setFilePath(localProducPictPath);
+		oks.setSite(context.getString(R.string.app_name));
 		oks.setSiteUrl("http://www.mfeiji.com/");
-
-		// 启动分享GUI
-		oks.show(this);
+		oks.setComment("来，说两句");
+		oks.setSilent(silent);
+		oks.setTheme(OnekeyShareTheme.CLASSIC);
+		if (platform != null) {
+			oks.setPlatform(platform);
+		}
+    	oks.setDialogMode();
+		// 为EditPage设置一个背景的View
+		oks.setEditPageBackground(mWebView);
+		oks.setInstallUrl("http://www.mfeiji.com/");
+		oks.show(context);
 	}
 
+
+	
 	public void clickView(View v) {
 		switch (v.getId()) {
 		case R.id.back_img: {
 			this.finish();
 		}
-			break;
+		   break;
 		case R.id.share_img: {
-			showShare();
+			 showShare(true, null, false);
 		}
-			break;
+		  break;
 		case R.id.conn_us_tv: {
 			if (product != null) {
 				String telNumber = ((FlyProduct) product).getTel();
@@ -242,7 +253,34 @@ public class FlyProductDetails extends BaseActivity {
 				if (result instanceof List) {
 					List list = (List) result;
 					if (list.size() > 0) {
-						uiHandler.obtainMessage(0, list.get(0)).sendToTarget();
+						Object obj = list.get(0);
+						uiHandler.obtainMessage(0, obj).sendToTarget();
+						if(obj instanceof FlyProduct)
+						{
+							try {
+								URL url = new URL(((FlyProduct)obj).getFirstImageUrl());
+								URLConnection urlConn = url.openConnection();
+								Bitmap  pic = BitmapFactory.decodeStream(urlConn
+											.getInputStream());
+								if(pic != null )
+								{
+									pic = Tools.compressImage(pic,30);
+									localProducPictPath = cn.sharesdk.framework.utils.R.getCachePath(FlyProductDetails.this, null);
+								    localProducPictPath = localProducPictPath + ((FlyProduct)obj).getId()+".jpg";
+									FileOutputStream fos = new FileOutputStream(localProducPictPath);
+									pic.compress(CompressFormat.JPEG, 100, fos);
+									fos.flush();
+									fos.close();
+								}
+							} catch (MalformedURLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+//						localProductPath
 					}
 				} else if (result instanceof ErrorMsg) {
 					ErrorMsg error = (ErrorMsg) result;

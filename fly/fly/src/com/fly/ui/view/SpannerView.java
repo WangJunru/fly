@@ -47,15 +47,15 @@ public class SpannerView extends RelativeLayout implements OnClickListener{
 		LayoutInflater.from(getContext()).inflate(
 				R.layout.slides_item_view_layout, this);
 		img = (NetImageView) this.findViewById(R.id.banner_image_iv);
-		img.post(new Runnable() {
-
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				Debug.log.i("spanner_view",
-						img.getWidth() + ":" + img.getHeight());
-			}
-		});
+//		img.post(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//				Debug.log.i("spanner_view",
+//						img.getWidth() + ":" + img.getHeight());
+//			}
+//		});
 		title = (TextView) this.findViewById(R.id.panner_info_tv);
 		setOnClickListener(this);
 	}
