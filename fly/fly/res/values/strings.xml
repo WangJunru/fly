@@ -212,6 +212,7 @@
     <string name="empty_comment">不能发送空的评论</string>
     <string name="no_login_comment">只有登录用户才能评论</string>
     
-    
+    <!-- load more layout -->
+    <string name="more_items">正在载入更多 ...</string>
      
 </resources>

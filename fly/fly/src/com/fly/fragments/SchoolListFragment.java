@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -62,6 +63,8 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 	
 	private int  currentPage = 1 ;
 	private LoadDialog loadDig ;
+	private BaseAdapter adapter ; 
+	private View footerView ;
 	
 	public SchoolListFragment(ArrayList<School> items,ArrayList<SchoolPanner> panners)
 	{
@@ -182,7 +185,8 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
     	b.recycle();
     	
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
-    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
+//    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
+    	this.spannViewHeight = opt.outHeight ;
     	
     	Debug.log.i("spanner", this.spannViewWidth +":"+this.spannViewHeight);
     	opt.inJustDecodeBounds  = true ;
@@ -220,8 +224,12 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
     	
     	slidesView    = (SlidesView)rootView.findViewById(R.id.slide_view);
     	productsList  = (ListView)rootView.findViewById(R.id.school_lists_infos);
+        footerView = LayoutInflater.from(attachedActivity).inflate(R.layout.load_next_page_layout, null);
+        footerView.setVisibility(View.GONE);
+        
+        productsList.addFooterView(footerView);
     	productsList.setOnItemClickListener(this);
-    	productsList.setAdapter(new BaseAdapter() {
+    	productsList.setAdapter(adapter = new BaseAdapter() {
 			
     		final class ViewHolder
     		{
@@ -404,7 +412,7 @@ public class SchoolListFragment extends BaseFramgment  implements OnItemClickLis
 	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
 	    		slidesView.addSlide(sView);
 	    	}
-			((BaseAdapter)productsList.getAdapter()).notifyDataSetChanged();
+			adapter.notifyDataSetChanged();
 		}
 	}
 	

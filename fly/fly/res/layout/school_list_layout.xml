@@ -50,7 +50,8 @@
                     android:fadeScrollbars="true"
                     android:fadingEdge="none"
                     android:persistentDrawingCache="animation"
-                    android:scrollingCache="true" />
+                    android:scrollingCache="true"
+                    android:footerDividersEnabled="false" />
             </RelativeLayout>
         </ScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>

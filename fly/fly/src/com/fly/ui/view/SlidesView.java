@@ -102,6 +102,8 @@ public class SlidesView extends FrameLayout implements OnTouchListener {
 		this.setOnTouchListener(this);
 		
 		pannerViewPager = (ViewPager) this.findViewById(R.id.slides_view_pager);
+		pannerViewPager.setHorizontalFadingEdgeEnabled(true);
+		pannerViewPager.setFadingEdgeLength(30);
 		pannerViewPager.postDelayed(new Runnable() {			
 			@Override
 			public void run() {

@@ -66,6 +66,10 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	private  int  currentPage = 1 ;
 	
 	private LoadDialog loadDig ;
+	private BaseAdapter  adapter ;
+	private View footerView ;
+	private boolean isBottom = false ;
+	private boolean hasMoreData = false ;
 	
 	public ProductListFragment(ArrayList<Product>  products,ArrayList<ProductBanner> panners)
 	{
@@ -175,7 +179,8 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
     	b.recycle();
     	
     	this.spannViewWidth = getResources().getDisplayMetrics().widthPixels;
-    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
+//    	this.spannViewHeight = (int) (((float)getResources().getDisplayMetrics().widthPixels / (float)opt.outWidth)*opt.outHeight);
+    	this.spannViewHeight = opt.outHeight ;
     	
     	opt.inJustDecodeBounds  = false ;
         b = BitmapFactory.decodeResource(getResources(), R.drawable.product_default_image, opt);
@@ -210,18 +215,17 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 				R.color.holo_orange_light, R.color.holo_red_light);
 		
     	slidesView =    (SlidesView)rootView.findViewById(R.id.slide_view);
-//    	for(ProductBanner panner : productspanner)
-//    	{
-//    		SpannerView sView = new SpannerView(getActivity());
-//    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
-//    		slidesView.addSlide(sView);
-//    	}
-    	
+
     	//    	slideTitle.setText(getText(R.string.product_default_info));
     	productsList  = (ListView)rootView.findViewById(R.id.school_lists_infos);
+         footerView = LayoutInflater.from(attachedActivity).
+    			inflate(R.layout.load_next_page_layout, null);
+    	productsList.addFooterView(footerView);
+    	footerView.setVisibility(View.GONE);
+    	
     	productsList.setOnScrollListener(this);
     	productsList.setOnItemClickListener(this);
-    	productsList.setAdapter(new BaseAdapter() {
+    	productsList.setAdapter(adapter = new BaseAdapter() {
 			
     		final class ViewHolder
     		{
@@ -294,24 +298,40 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	    		   {
 	    		      updateViewData();
 	    		      mSwipeLayout.setRefreshing(false);
+	    		      showFooterView(false);
 	    		   }
 			   } break;
 			   case 2:
 					Toast.makeText(attachedActivity, R.string.request_timeout, Toast.LENGTH_SHORT)
 							.show();
 					mSwipeLayout.setRefreshing(false);
+					showFooterView(false);
 					break;
 				case 3: {
 					Toast.makeText(attachedActivity, R.string.network_io_error, Toast.LENGTH_SHORT)
 							.show();
 					mSwipeLayout.setRefreshing(false);
+					showFooterView(false);
 				}
 					break;
+				case 4:
+				{
+					showFooterView(false);
+				}break;
 				default:
 					mSwipeLayout.setRefreshing(false);
 			 }
 		}
 	};
+	
+    private void showFooterView(boolean shown)
+    {
+    	if(footerView == null)
+    	{
+    		return ;
+    	}
+    	footerView.setVisibility(shown?View.VISIBLE:View.GONE);
+    }
     private void loadNetData()
 	{
 	    taskJob = new GetProductList(currentPage);
@@ -338,8 +358,11 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 		    			  {
 		    				  obj = ((List)result).get(0);
 		    				  currentPage ++ ;
+		    				  hasMoreData  = true ; 
 		    			  }else
 		    			  {
+		    				  hasMoreData = false ;
+		    				  uiHandler.sendEmptyMessage(4);
 		    				  return ;
 		    			  } 
 		    			  if(obj instanceof Product)
@@ -387,7 +410,7 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	    		sView.setTitleAndImageUrl(panner.getTitle(), panner.getFirstImageUrl(), spannViewWidth, spannViewHeight);
 	    		slidesView.addSlide(sView);
 	    	}
-			((BaseAdapter)productsList.getAdapter()).notifyDataSetChanged();
+			adapter.notifyDataSetChanged();
 		}
 	}
     
@@ -429,17 +452,33 @@ public class ProductListFragment extends BaseFramgment implements OnItemClickLis
 	@Override
 	public void onRefresh() {
 		// TODO Auto-generated method stub
-		loadNetData();
+		if(hasMoreData)
+		    loadNetData();
+		else
+		   mSwipeLayout.setRefreshing(false);
 	}
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem,
 			int visibleItemCount, int totalItemCount) {
 		// TODO Auto-generated method stub
-		
+		if(firstVisibleItem+visibleItemCount == totalItemCount)
+		{
+			isBottom = true ;
+		}else
+		{
+			isBottom = false ;
+		}
 	}
 	@Override
 	public void onScrollStateChanged(AbsListView view, int scrollState) {
 		// TODO Auto-generated method stub
-		
+		if(scrollState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL)
+		{
+			if(isBottom)
+			{
+				showFooterView(true);
+				loadNetData();
+			}
+		}
 	}
 }
